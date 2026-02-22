@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -8,91 +8,175 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <title>Color Picker Pro</title>
   <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <!-- Google Fonts: semua pilihan font yang bisa dipilih di halaman Settings -->
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&family=Inter:wght@300;400;500;600;700&family=Sora:wght@300;400;500;600;700&family=Nunito:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet" />
 
   <style>
-    /* =====================================================================
-       CSS VARIABLES — tema gelap sebagai default, terang via media query
-    ===================================================================== */
+    /* =================================================================
+       CSS CUSTOM PROPERTIES
+       Tema dikendalikan sepenuhnya lewat variabel ini.
+       JS tinggal menulis ulang variabel-variabel ini saat tema berubah,
+       dan seluruh UI ikut berubah secara instan berkat cascade CSS.
+    ================================================================= */
     :root {
-      --bg-app:        #1c1c1e;
-      --bg-surface:    #2c2c2e;
-      --bg-card:       #2c2c2e;
-      --bg-elevated:   #3a3a3c;
-      --bg-input:      #3a3a3c;
-      --border:        rgba(255,255,255,0.08);
-      --border-focus:  rgba(66,135,245,0.7);
-      --text-1:        #f2f2f7;
-      --text-2:        rgba(235,235,245,0.6);
-      --text-3:        rgba(235,235,245,0.3);
-      --accent:        #4287f5;
-      --accent-soft:   rgba(66,135,245,0.15);
-      --danger:        #ff453a;
-      --divider:       rgba(255,255,255,0.08);
-      --ripple:        rgba(255,255,255,0.09);
-      --shadow:        0 8px 32px rgba(0,0,0,0.45);
-      --appbar-bg:     rgba(28,28,30,0.92);
-      --drawer-bg:     #242426;
-      --radius:        14px;
-      --radius-sm:     10px;
-      --radius-xs:     7px;
-      --font:          'DM Sans', sans-serif;
-      --mono:          'DM Mono', monospace;
-      --appbar-h:      56px;
-      --trans:         0.28s cubic-bezier(0.4, 0, 0.2, 1);
+      /* --- Dark Theme (default) --- */
+      --bg-app:       #1c1c1e;
+      --bg-surface:   #2c2c2e;
+      --bg-card:      #2c2c2e;
+      --bg-elevated:  #3a3a3c;
+      --bg-input:     #3a3a3c;
+      --border:       rgba(255,255,255,0.08);
+      --border-focus: rgba(66,135,245,0.7);
+      --text-1:       #f2f2f7;
+      --text-2:       rgba(235,235,245,0.6);
+      --text-3:       rgba(235,235,245,0.3);
+      --accent:       #4287f5;
+      --accent-soft:  rgba(66,135,245,0.15);
+      --danger:       #ff453a;
+      --divider:      rgba(255,255,255,0.08);
+      --ripple:       rgba(255,255,255,0.09);
+      --appbar-bg:    rgba(28,28,30,0.92);
+      --drawer-bg:    #242426;
+      --nav-bg:       rgba(28,28,30,0.92);
+
+      /* --- Typography --- */
+      --font:         'DM Sans', sans-serif;
+      --mono:         'DM Mono', monospace;
+      --font-size-base: 15px;     /* dikontrol oleh setting Font Size */
+
+      /* --- Layout --- */
+      --radius:       14px;
+      --radius-sm:    10px;
+      --radius-xs:    7px;
+      --appbar-h:     56px;
+      --trans:        0.28s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    @media (prefers-color-scheme: light) {
-      :root {
-        --bg-app:       #f2f2f7;
-        --bg-surface:   #ffffff;
-        --bg-card:      #ffffff;
-        --bg-elevated:  #e5e5ea;
-        --bg-input:     #e5e5ea;
-        --border:       rgba(0,0,0,0.09);
-        --text-1:       #1c1c1e;
-        --text-2:       rgba(60,60,67,0.6);
-        --text-3:       rgba(60,60,67,0.3);
-        --accent:       #007aff;
-        --accent-soft:  rgba(0,122,255,0.12);
-        --danger:       #ff3b30;
-        --divider:      rgba(0,0,0,0.07);
-        --ripple:       rgba(0,0,0,0.06);
-        --shadow:       0 8px 32px rgba(0,0,0,0.12);
-        --appbar-bg:    rgba(242,242,247,0.92);
-        --drawer-bg:    #ffffff;
-      }
+    /* Light theme — ditulis ulang oleh JS, bukan media query,
+       agar bisa di-override manual dari halaman Settings */
+    [data-theme="light"] {
+      --bg-app:       #f2f2f7;
+      --bg-surface:   #ffffff;
+      --bg-card:      #ffffff;
+      --bg-elevated:  #e5e5ea;
+      --bg-input:     #e5e5ea;
+      --border:       rgba(0,0,0,0.09);
+      --text-1:       #1c1c1e;
+      --text-2:       rgba(60,60,67,0.6);
+      --text-3:       rgba(60,60,67,0.3);
+      --accent:       #007aff;
+      --accent-soft:  rgba(0,122,255,0.12);
+      --danger:       #ff3b30;
+      --divider:      rgba(0,0,0,0.07);
+      --ripple:       rgba(0,0,0,0.06);
+      --appbar-bg:    rgba(242,242,247,0.92);
+      --drawer-bg:    #ffffff;
+      --nav-bg:       rgba(242,242,247,0.92);
     }
 
-    /* =====================================================================
+    /* Midnight theme — biru gelap seperti langit malam */
+    [data-theme="midnight"] {
+      --bg-app:       #0a0e1a;
+      --bg-surface:   #111827;
+      --bg-card:      #111827;
+      --bg-elevated:  #1f2937;
+      --bg-input:     #1f2937;
+      --border:       rgba(99,179,237,0.12);
+      --text-1:       #e2e8f0;
+      --text-2:       rgba(226,232,240,0.55);
+      --text-3:       rgba(226,232,240,0.25);
+      --accent:       #63b3ed;
+      --accent-soft:  rgba(99,179,237,0.15);
+      --danger:       #fc8181;
+      --divider:      rgba(99,179,237,0.08);
+      --ripple:       rgba(255,255,255,0.07);
+      --appbar-bg:    rgba(10,14,26,0.95);
+      --drawer-bg:    #111827;
+      --nav-bg:       rgba(10,14,26,0.95);
+    }
+
+    /* Forest theme — hijau gelap earthy */
+    [data-theme="forest"] {
+      --bg-app:       #0d1f0d;
+      --bg-surface:   #132213;
+      --bg-card:      #132213;
+      --bg-elevated:  #1e3a1e;
+      --bg-input:     #1e3a1e;
+      --border:       rgba(134,239,172,0.12);
+      --text-1:       #dcfce7;
+      --text-2:       rgba(220,252,231,0.55);
+      --text-3:       rgba(220,252,231,0.25);
+      --accent:       #4ade80;
+      --accent-soft:  rgba(74,222,128,0.15);
+      --danger:       #f87171;
+      --divider:      rgba(134,239,172,0.08);
+      --ripple:       rgba(255,255,255,0.07);
+      --appbar-bg:    rgba(13,31,13,0.95);
+      --drawer-bg:    #132213;
+      --nav-bg:       rgba(13,31,13,0.95);
+    }
+
+    /* Rose theme — merah muda feminin & elegan */
+    [data-theme="rose"] {
+      --bg-app:       #1a0a12;
+      --bg-surface:   #2d1020;
+      --bg-card:      #2d1020;
+      --bg-elevated:  #3d1a2c;
+      --bg-input:     #3d1a2c;
+      --border:       rgba(251,191,207,0.12);
+      --text-1:       #fce7f3;
+      --text-2:       rgba(252,231,243,0.55);
+      --text-3:       rgba(252,231,243,0.25);
+      --accent:       #f472b6;
+      --accent-soft:  rgba(244,114,182,0.15);
+      --danger:       #fb7185;
+      --divider:      rgba(251,191,207,0.08);
+      --ripple:       rgba(255,255,255,0.07);
+      --appbar-bg:    rgba(26,10,18,0.95);
+      --drawer-bg:    #2d1020;
+      --nav-bg:       rgba(26,10,18,0.95);
+    }
+
+    /* =================================================================
        RESET & BASE
-    ===================================================================== */
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-    html, body { width: 100%; height: 100%; overflow: hidden; font-family: var(--font); background: var(--bg-app); color: var(--text-1); -webkit-user-select: none; user-select: none; }
+    ================================================================= */
+    *, *::before, *::after {
+      box-sizing: border-box; margin: 0; padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+    html, body {
+      width: 100%; height: 100%; overflow: hidden;
+      font-family: var(--font);
+      font-size: var(--font-size-base);
+      background: var(--bg-app); color: var(--text-1);
+      -webkit-user-select: none; user-select: none;
+      /* Transisi warna saat berganti tema */
+      transition: background 0.3s, color 0.3s;
+    }
     button { font: inherit; cursor: pointer; border: none; background: none; color: inherit; }
-    input, textarea { font: inherit; }
+    input, textarea, select { font: inherit; }
 
-    /* =====================================================================
+    /* =================================================================
        APP SHELL
-    ===================================================================== */
+    ================================================================= */
     #app {
       display: flex; flex-direction: column;
-      height: 100vh; height: 100dvh;
-      overflow: hidden; position: relative;
+      height: 100vh; height: 100dvh; overflow: hidden;
     }
 
-    /* =====================================================================
-       APP BAR — glass effect dengan backdrop blur
-    ===================================================================== */
+    /* =================================================================
+       APP BAR
+    ================================================================= */
     #appbar {
-      position: relative; z-index: 20;
-      flex-shrink: 0;
+      position: relative; z-index: 20; flex-shrink: 0;
       display: flex; align-items: center; gap: 2px;
       height: calc(var(--appbar-h) + env(safe-area-inset-top, 0));
       padding: env(safe-area-inset-top, 0) 8px 0 8px;
       background: var(--appbar-bg);
       backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
       border-bottom: 1px solid var(--divider);
+      transition: background 0.3s;
     }
     .ab-icon-btn {
       width: 48px; height: 48px; border-radius: 50%;
@@ -103,13 +187,30 @@
     #appbar-title {
       flex: 1; font-size: 19px; font-weight: 600;
       letter-spacing: -0.3px; padding-left: 6px;
-      /* Transisi teks judul saat berganti halaman */
-      transition: opacity 0.2s;
     }
 
-    /* =====================================================================
-       DRAWER OVERLAY
-    ===================================================================== */
+    /* ---- VIP / PRO badge di appbar ---- */
+    #vip-btn {
+      display: flex; align-items: center; gap: 5px;
+      padding: 6px 12px; border-radius: 20px;
+      background: linear-gradient(135deg, #f7971e, #ffd200, #f7971e);
+      background-size: 200% 100%;
+      animation: goldShimmer 2.5s linear infinite;
+      color: #1a0e00; font-size: 12px; font-weight: 700;
+      letter-spacing: 0.3px; flex-shrink: 0;
+      box-shadow: 0 2px 12px rgba(255,200,0,0.35);
+      transition: transform .15s, box-shadow .15s;
+    }
+    #vip-btn:active { transform: scale(0.93); box-shadow: 0 1px 6px rgba(255,200,0,0.2); }
+    @keyframes goldShimmer {
+      0%   { background-position: 0% 50%; }
+      100% { background-position: 200% 50%; }
+    }
+    #vip-btn .vip-star { font-size: 14px; }
+
+    /* =================================================================
+       DRAWER OVERLAY — blur gelap, swipeable
+    ================================================================= */
     #drawer-overlay {
       position: fixed; inset: 0;
       background: rgba(0,0,0,0.52);
@@ -119,19 +220,37 @@
     }
     #drawer-overlay.visible { opacity: 1; pointer-events: all; }
 
-    /* =====================================================================
-       DRAWER
-    ===================================================================== */
+    /* =================================================================
+       DRAWER — tanpa box-shadow sesuai permintaan
+    ================================================================= */
     #drawer {
       position: fixed; top: 0; left: 0; bottom: 0; width: 288px;
       background: var(--drawer-bg); z-index: 50;
       transform: translateX(-100%);
       transition: transform var(--trans);
       display: flex; flex-direction: column;
-      /* box-shadow: 6px 0 40px rgba(0,0,0,0.4); */
+      /* Shadow DIHAPUS sesuai permintaan */
       padding-bottom: env(safe-area-inset-bottom, 0);
+      transition: background 0.3s, transform var(--trans);
+      /* Handle swipe: visual indicator di tepi kanan drawer */
+      border-right: 1px solid var(--divider);
     }
     #drawer.open { transform: translateX(0); }
+
+    /* Pull handle indicator di sisi kanan drawer */
+    #drawer-handle {
+      position: absolute; right: -20px; top: 50%;
+      transform: translateY(-50%);
+      width: 20px; height: 56px;
+      display: flex; align-items: center; justify-content: center;
+      pointer-events: none;
+      opacity: 0; transition: opacity .2s;
+    }
+    #drawer.open #drawer-handle { opacity: 1; }
+    .handle-pill {
+      width: 4px; height: 32px; border-radius: 2px;
+      background: rgba(255,255,255,0.25);
+    }
 
     .drawer-header {
       padding: 52px 20px 16px;
@@ -139,10 +258,10 @@
     }
     .drawer-app-icon {
       width: 52px; height: 52px; border-radius: 16px;
-      background: linear-gradient(135deg, #4287f5 0%, #9b59b6 100%);
+      background: linear-gradient(135deg, #4287f5, #9b59b6);
       display: flex; align-items: center; justify-content: center;
       margin-bottom: 12px;
-      box-shadow: 0 4px 20px rgba(66,135,245,0.4);
+      box-shadow: 0 4px 20px rgba(66,135,245,0.35);
     }
     .drawer-header h2 { font-size: 17px; font-weight: 700; }
     .drawer-header p  { font-size: 13px; color: var(--text-2); margin-top: 3px; }
@@ -152,87 +271,56 @@
       text-transform: uppercase; color: var(--text-3);
       padding: 14px 20px 4px;
     }
-
     .drawer-item {
       display: flex; align-items: center; gap: 16px;
       padding: 0 16px; height: 52px; cursor: pointer;
       border-radius: var(--radius-sm); margin: 1px 8px;
       transition: background 0.15s;
-      position: relative;
     }
     .drawer-item:active { background: var(--ripple); }
     .drawer-item.active { background: var(--accent-soft); }
     .drawer-item.active .di-icon { color: var(--accent); }
     .drawer-item.active .di-text { color: var(--accent); font-weight: 600; }
-
     .di-icon {
       width: 32px; height: 32px; border-radius: var(--radius-xs);
       display: flex; align-items: center; justify-content: center;
-      color: var(--text-2); flex-shrink: 0;
-      background: var(--bg-elevated);
+      color: var(--text-2); flex-shrink: 0; background: var(--bg-elevated);
     }
     .drawer-item.active .di-icon { background: var(--accent-soft); }
-    .di-text  { font-size: 15px; font-weight: 500; }
-    .di-badge {
-      margin-left: auto; background: var(--accent);
-      color: #fff; font-size: 11px; font-weight: 700;
-      padding: 2px 7px; border-radius: 20px; min-width: 20px; text-align: center;
-    }
-
+    .di-text { font-size: 15px; font-weight: 500; }
     .drawer-divider { height: 1px; background: var(--divider); margin: 6px 0; }
-    .drawer-list    { padding: 4px 0; overflow-y: auto; flex: 1; }
+    .drawer-list { padding: 4px 0; overflow-y: auto; flex: 1; }
+    .drawer-list::-webkit-scrollbar { display: none; }
 
-    /* =====================================================================
-       SPA — Router Container
-       Semua halaman ditumpuk di sini; hanya satu yang terlihat.
-       Transisi menggunakan kombinasi transform + opacity.
-    ===================================================================== */
-    #router-view {
-      flex: 1; position: relative; overflow: hidden;
-    }
+    /* =================================================================
+       ROUTER VIEW + PAGE TRANSITIONS
+    ================================================================= */
+    #router-view { flex: 1; position: relative; overflow: hidden; }
 
-    /* Setiap "halaman" adalah div absolut penuh */
     .page {
       position: absolute; inset: 0;
-      display: flex; flex-direction: column;
-      overflow: hidden;
-      /* State default: tersembunyi di kanan */
-      opacity: 0;
-      transform: translateX(40px);
-      pointer-events: none;
+      display: flex; flex-direction: column; overflow: hidden;
+      opacity: 0; transform: translateX(40px); pointer-events: none;
       transition: opacity 0.28s cubic-bezier(0.4,0,0.2,1),
                   transform 0.28s cubic-bezier(0.4,0,0.2,1);
       will-change: transform, opacity;
     }
+    .page.active       { opacity: 1; transform: translateX(0); pointer-events: all; }
+    .page.exit-left    { opacity: 0; transform: translateX(-40px); pointer-events: none; }
+    /* Settings/About masuk dari bawah (dari drawer, bukan bottom nav) */
+    .page.from-drawer  { transform: translateY(30px); }
+    .page.exit-drawer  { opacity: 0; transform: translateY(30px); pointer-events: none; }
 
-    /* State aktif: tampil normal */
-    .page.active {
-      opacity: 1;
-      transform: translateX(0);
-      pointer-events: all;
-    }
-
-    /* Halaman yang "keluar ke kiri" */
-    .page.exit-left {
-      opacity: 0;
-      transform: translateX(-40px);
-      pointer-events: none;
-    }
-
-    /* =====================================================================
-       SHARED — Scrollable page content wrapper
-    ===================================================================== */
+    /* =================================================================
+       SHARED COMPONENTS
+    ================================================================= */
     .page-scroll {
       flex: 1; overflow-y: auto; overflow-x: hidden;
-      -webkit-overflow-scrolling: touch;
-      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch; scrollbar-width: none;
       padding-bottom: env(safe-area-inset-bottom, 12px);
     }
     .page-scroll::-webkit-scrollbar { display: none; }
 
-    /* =====================================================================
-       SHARED — Empty state (tampil saat daftar kosong)
-    ===================================================================== */
     .empty-state {
       display: flex; flex-direction: column;
       align-items: center; justify-content: center;
@@ -244,12 +332,9 @@
       display: flex; align-items: center; justify-content: center;
       color: var(--text-3);
     }
-    .empty-title  { font-size: 17px; font-weight: 600; color: var(--text-1); }
-    .empty-desc   { font-size: 14px; color: var(--text-2); line-height: 1.5; }
+    .empty-title { font-size: 17px; font-weight: 600; }
+    .empty-desc  { font-size: 14px; color: var(--text-2); line-height: 1.5; }
 
-    /* =====================================================================
-       SHARED — Action chip / pill button
-    ===================================================================== */
     .chip {
       display: inline-flex; align-items: center; gap: 6px;
       padding: 8px 16px; border-radius: 24px;
@@ -258,58 +343,46 @@
       transition: background 0.15s, transform 0.12s;
     }
     .chip:active { transform: scale(0.95); }
-    .chip.accent { background: var(--accent); color: #fff; }
 
-    /* =====================================================================
+    /* =================================================================
        PAGE 1 — PEMILIH WARNA
-    ===================================================================== */
+    ================================================================= */
     #picker-area {
-      flex-shrink: 0;
-      display: flex;
+      flex-shrink: 0; display: flex;
       height: clamp(150px, 36vh, 230px);
     }
-    #color-preview {
-      width: 35%; flex-shrink: 0; transition: background-color 0.04s;
-    }
-    #picker-canvas-wrap {
-      flex: 1; position: relative; touch-action: none; cursor: crosshair;
-    }
+    #color-preview { width: 35%; flex-shrink: 0; transition: background-color .04s; }
+    #picker-canvas-wrap { flex: 1; position: relative; touch-action: none; cursor: crosshair; }
     #picker-canvas { width: 100%; height: 100%; display: block; }
     #picker-thumb {
       position: absolute; width: 24px; height: 24px; border-radius: 50%;
-      border: 2.5px solid #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+      border: 2.5px solid #fff; box-shadow: 0 2px 8px rgba(0,0,0,.5);
       transform: translate(-50%,-50%); pointer-events: none;
       transition: width .1s, height .1s;
     }
     #picker-thumb.dragging { width: 30px; height: 30px; }
-
     #picker-bottom {
       flex: 1; overflow-y: auto; overflow-x: hidden;
       -webkit-overflow-scrolling: touch; scrollbar-width: none;
       padding: 14px 12px; display: flex; flex-direction: column; gap: 10px;
     }
     #picker-bottom::-webkit-scrollbar { display: none; }
-
-    /* Hue slider */
     #hue-track {
-      position: relative; height: 10px; border-radius: 11px;
+      position: relative; height: 22px; border-radius: 11px;
       background: linear-gradient(to right,
-        hsl(0,100%,50%), hsl(30,100%,50%), hsl(60,100%,50%),
-        hsl(90,100%,50%), hsl(120,100%,50%), hsl(150,100%,50%),
-        hsl(180,100%,50%), hsl(210,100%,50%), hsl(240,100%,50%),
-        hsl(270,100%,50%), hsl(300,100%,50%), hsl(330,100%,50%), hsl(360,100%,50%));
+        hsl(0,100%,50%),hsl(30,100%,50%),hsl(60,100%,50%),hsl(90,100%,50%),
+        hsl(120,100%,50%),hsl(150,100%,50%),hsl(180,100%,50%),hsl(210,100%,50%),
+        hsl(240,100%,50%),hsl(270,100%,50%),hsl(300,100%,50%),hsl(330,100%,50%),hsl(360,100%,50%));
       touch-action: none; cursor: pointer;
     }
     #hue-thumb {
-      position: absolute; top: 50%; width: 20px; height: 20px;
+      position: absolute; top: 50%; width: 28px; height: 28px;
       border-radius: 50%; border: 3px solid #fff;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+      box-shadow: 0 2px 10px rgba(0,0,0,.5);
       transform: translate(-50%,-50%); pointer-events: none;
       transition: width .1s, height .1s;
     }
     #hue-thumb.dragging { width: 34px; height: 34px; }
-
-    /* Kartu info editable */
     .card-label {
       font-size: 11px; font-weight: 500; letter-spacing: 0.8px;
       text-transform: uppercase; color: var(--text-2); display: block;
@@ -343,25 +416,21 @@
       opacity: 0; pointer-events: none; transition: opacity .2s;
     }
     .copy-flash.show { opacity: 1; }
-
     .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
     .info-card {
       background: var(--bg-card); border: 1px solid var(--border);
-      border-radius: var(--radius); padding: 12px 14px;
-      transition: border-color .2s;
+      border-radius: var(--radius); padding: 12px 14px; transition: border-color .2s;
     }
     .info-card:focus-within { border-color: var(--border-focus); }
     .card-input {
       width: 100%; background: none; border: none; outline: none;
-      font-family: var(--mono); font-size: 14px; font-weight: 400;
-      color: var(--text-1); line-height: 1.5; margin-top: 4px;
+      font-family: var(--mono); font-size: 14px; color: var(--text-1);
+      line-height: 1.5; margin-top: 4px;
       -webkit-user-select: text; user-select: text;
       caret-color: var(--accent); resize: none; overflow: hidden;
     }
     .card-input.invalid { color: var(--danger); }
     .card-input::-webkit-scrollbar { display: none; }
-
-    /* Tombol simpan ke palet */
     #save-to-palette-btn {
       display: flex; align-items: center; justify-content: center; gap: 8px;
       padding: 14px; border-radius: var(--radius);
@@ -371,38 +440,28 @@
     }
     #save-to-palette-btn:active { opacity: .85; transform: scale(.98); }
 
-    /* =====================================================================
-       PAGE 2 — PALET TERSIMPAN
-    ===================================================================== */
+    /* =================================================================
+       PAGE 2 — PALET & PAGE 3 — RIWAYAT (header bersama)
+    ================================================================= */
     .page-header {
       padding: 16px 16px 8px;
       display: flex; align-items: center; justify-content: space-between;
     }
     .page-header h2 { font-size: 22px; font-weight: 700; }
     .page-header-meta { font-size: 13px; color: var(--text-2); }
-
     .palette-grid {
-      display: grid; grid-template-columns: repeat(3, 1fr);
+      display: grid; grid-template-columns: repeat(3,1fr);
       gap: 10px; padding: 8px 12px 16px;
     }
-
     .palette-item {
       position: relative; border-radius: var(--radius-sm);
       overflow: hidden; cursor: pointer;
-      animation: fadeInUp 0.3s ease both;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.25);
+      animation: fadeInUp .3s ease both;
+      box-shadow: 0 2px 12px rgba(0,0,0,.25);
     }
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(16px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    .palette-color-swatch {
-      aspect-ratio: 1 / 1; width: 100%;
-      transition: transform .2s;
-    }
-    .palette-item:active .palette-color-swatch { transform: scale(0.95); }
-
+    @keyframes fadeInUp { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
+    .palette-color-swatch { aspect-ratio: 1/1; width: 100%; transition: transform .2s; }
+    .palette-item:active .palette-color-swatch { transform: scale(.95); }
     .palette-item-footer {
       background: var(--bg-card); padding: 8px 10px;
       display: flex; align-items: center; justify-content: space-between;
@@ -411,27 +470,21 @@
     .palette-delete {
       width: 24px; height: 24px; border-radius: 50%;
       display: flex; align-items: center; justify-content: center;
-      color: var(--danger); opacity: 0.7; transition: opacity .15s;
+      color: var(--danger); opacity: .7; transition: opacity .15s;
     }
     .palette-delete:active { opacity: 1; }
-
-    /* =====================================================================
-       PAGE 3 — RIWAYAT
-    ===================================================================== */
     .history-list { padding: 8px 12px; display: flex; flex-direction: column; gap: 6px; }
-
     .history-item {
       display: flex; align-items: center; gap: 12px;
       background: var(--bg-card); border: 1px solid var(--border);
       border-radius: var(--radius-sm); padding: 10px 12px;
       cursor: pointer; transition: border-color .15s;
-      animation: fadeInUp 0.25s ease both;
+      animation: fadeInUp .25s ease both;
     }
     .history-item:active { border-color: var(--accent); }
-
     .history-swatch {
       width: 44px; height: 44px; border-radius: var(--radius-xs);
-      flex-shrink: 0; box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+      flex-shrink: 0; box-shadow: 0 2px 8px rgba(0,0,0,.25);
     }
     .history-info { flex: 1; min-width: 0; }
     .history-hex  { font-family: var(--mono); font-size: 16px; font-weight: 500; }
@@ -439,199 +492,321 @@
     .history-time { font-size: 11px; color: var(--text-3); margin-left: auto; flex-shrink: 0; }
     .history-action {
       width: 36px; height: 36px; border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      color: var(--text-2); flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center; color: var(--text-2);
     }
     .history-action:active { background: var(--ripple); }
 
-    /* =====================================================================
+    /* =================================================================
        PAGE 4 — GRADIENT MAKER
-    ===================================================================== */
-    .gradient-preview-box {
-      height: clamp(120px, 25vh, 180px);
-      flex-shrink: 0;
-      position: relative;
-      overflow: hidden;
-    }
-    #gradient-preview {
-      width: 100%; height: 100%;
-      transition: background 0.3s;
-    }
+    ================================================================= */
+    .gradient-preview-box { height: clamp(120px,25vh,180px); flex-shrink:0; position:relative; overflow:hidden; }
+    #gradient-preview { width:100%; height:100%; transition:background .3s; }
     .gradient-preview-badge {
-      position: absolute; bottom: 12px; right: 12px;
-      background: rgba(0,0,0,0.5);
-      backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-      color: #fff; font-size: 12px; font-weight: 500;
-      padding: 5px 12px; border-radius: 24px;
+      position:absolute; bottom:12px; right:12px;
+      background:rgba(0,0,0,.5); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);
+      color:#fff; font-size:12px; font-weight:500; padding:5px 12px; border-radius:24px;
     }
-
     .gradient-section { padding: 14px 12px; }
     .gradient-section-title {
-      font-size: 13px; font-weight: 600; letter-spacing: 0.4px;
-      color: var(--text-2); margin-bottom: 10px;
-      text-transform: uppercase; font-size: 11px;
+      font-size:11px; font-weight:600; letter-spacing:.4px;
+      text-transform:uppercase; color:var(--text-2); margin-bottom:10px;
     }
-
-    /* Daftar stop warna */
-    .gradient-stops { display: flex; flex-direction: column; gap: 8px; margin-bottom: 10px; }
-
+    .gradient-stops { display:flex; flex-direction:column; gap:8px; margin-bottom:10px; }
     .stop-row {
-      display: flex; align-items: center; gap: 10px;
-      background: var(--bg-card); border: 1px solid var(--border);
-      border-radius: var(--radius-sm); padding: 8px 12px;
+      display:flex; align-items:center; gap:10px;
+      background:var(--bg-card); border:1px solid var(--border);
+      border-radius:var(--radius-sm); padding:8px 12px;
     }
     .stop-swatch {
-      width: 36px; height: 36px; border-radius: var(--radius-xs);
-      flex-shrink: 0; cursor: pointer; box-shadow: 0 2px 6px rgba(0,0,0,0.25);
-      transition: transform .15s;
+      width:36px; height:36px; border-radius:var(--radius-xs);
+      flex-shrink:0; cursor:pointer; box-shadow:0 2px 6px rgba(0,0,0,.25);
+      transition:transform .15s;
     }
-    .stop-swatch:active { transform: scale(0.9); }
+    .stop-swatch:active { transform:scale(.9); }
     .stop-hex-input {
-      flex: 1; background: var(--bg-input); border: 1px solid transparent;
-      border-radius: var(--radius-xs); padding: 6px 10px;
-      font-family: var(--mono); font-size: 14px; color: var(--text-1);
-      outline: none; -webkit-user-select: text; user-select: text;
-      caret-color: var(--accent); transition: border-color .2s;
+      flex:1; background:var(--bg-input); border:1px solid transparent;
+      border-radius:var(--radius-xs); padding:6px 10px;
+      font-family:var(--mono); font-size:14px; color:var(--text-1);
+      outline:none; -webkit-user-select:text; user-select:text;
+      caret-color:var(--accent); transition:border-color .2s;
     }
-    .stop-hex-input:focus { border-color: var(--border-focus); }
-    .stop-percent {
-      font-size: 12px; color: var(--text-2); font-family: var(--mono);
-      width: 36px; text-align: right; flex-shrink: 0;
-    }
+    .stop-hex-input:focus { border-color:var(--border-focus); }
+    .stop-percent { font-size:12px; color:var(--text-2); font-family:var(--mono); width:36px; text-align:right; flex-shrink:0; }
     .stop-remove {
-      width: 32px; height: 32px; border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      color: var(--danger); flex-shrink: 0; transition: background .15s;
+      width:32px; height:32px; border-radius:50%;
+      display:flex; align-items:center; justify-content:center;
+      color:var(--danger); flex-shrink:0; transition:background .15s;
     }
-    .stop-remove:active { background: rgba(255,69,58,0.15); }
-
+    .stop-remove:active { background:rgba(255,69,58,.15); }
     .add-stop-btn {
-      width: 100%; padding: 11px; border-radius: var(--radius-sm);
-      background: var(--bg-elevated); color: var(--text-1);
-      font-size: 14px; font-weight: 500;
-      display: flex; align-items: center; justify-content: center; gap: 6px;
-      transition: background .15s;
+      width:100%; padding:11px; border-radius:var(--radius-sm);
+      background:var(--bg-elevated); color:var(--text-1);
+      font-size:14px; font-weight:500;
+      display:flex; align-items:center; justify-content:center; gap:6px;
+      transition:background .15s;
     }
-    .add-stop-btn:active { background: var(--bg-input); }
-
-    /* Kontrol arah gradien */
-    .direction-grid {
-      display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px;
-    }
+    .add-stop-btn:active { background:var(--bg-input); }
+    .direction-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; }
     .dir-btn {
-      aspect-ratio: 1; border-radius: var(--radius-sm);
-      background: var(--bg-card); border: 1.5px solid var(--border);
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center; gap: 4px;
-      font-size: 10px; font-weight: 500; color: var(--text-2);
-      transition: border-color .15s, background .15s;
+      aspect-ratio:1; border-radius:var(--radius-sm);
+      background:var(--bg-card); border:1.5px solid var(--border);
+      display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px;
+      font-size:10px; font-weight:500; color:var(--text-2);
+      transition:border-color .15s, background .15s;
     }
-    .dir-btn:active { background: var(--bg-elevated); }
-    .dir-btn.active { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
-
-    /* Tipe gradien */
-    .type-row { display: flex; gap: 8px; }
+    .dir-btn:active { background:var(--bg-elevated); }
+    .dir-btn.active { border-color:var(--accent); color:var(--accent); background:var(--accent-soft); }
+    .type-row { display:flex; gap:8px; }
     .type-btn {
-      flex: 1; padding: 10px 4px; border-radius: var(--radius-sm);
-      background: var(--bg-card); border: 1.5px solid var(--border);
-      font-size: 13px; font-weight: 500; color: var(--text-2);
-      transition: all .15s;
+      flex:1; padding:10px 4px; border-radius:var(--radius-sm);
+      background:var(--bg-card); border:1.5px solid var(--border);
+      font-size:13px; font-weight:500; color:var(--text-2); transition:all .15s;
     }
-    .type-btn.active { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
-
-    /* CSS output box */
+    .type-btn.active { border-color:var(--accent); color:var(--accent); background:var(--accent-soft); }
     .css-output {
-      background: var(--bg-card); border: 1px solid var(--border);
-      border-radius: var(--radius-sm); padding: 12px 14px;
-      font-family: var(--mono); font-size: 12px; color: var(--text-2);
-      line-height: 1.7; position: relative;
+      background:var(--bg-card); border:1px solid var(--border);
+      border-radius:var(--radius-sm); padding:12px 14px;
+      font-family:var(--mono); font-size:12px; color:var(--text-2);
+      line-height:1.7; position:relative;
     }
-    #css-code { word-break: break-all; -webkit-user-select: text; user-select: text; }
+    #css-code { word-break:break-all; -webkit-user-select:text; user-select:text; }
     .copy-css-btn {
-      position: absolute; top: 8px; right: 8px;
-      width: 32px; height: 32px; border-radius: var(--radius-xs);
-      background: var(--bg-elevated); color: var(--text-2);
-      display: flex; align-items: center; justify-content: center;
+      position:absolute; top:8px; right:8px;
+      width:32px; height:32px; border-radius:var(--radius-xs);
+      background:var(--bg-elevated); color:var(--text-2);
+      display:flex; align-items:center; justify-content:center; transition:background .15s;
+    }
+    .copy-css-btn:active { background:var(--accent); color:#fff; }
+    .popular-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:10px; }
+    .popular-item {
+      border-radius:var(--radius-sm); overflow:hidden; cursor:pointer;
+      transition:transform .2s; box-shadow:0 4px 16px rgba(0,0,0,.3);
+    }
+    .popular-item:active { transform:scale(.96); }
+    .popular-swatch { height:72px; width:100%; }
+    .popular-info { background:var(--bg-card); padding:8px 12px; }
+    .popular-name { font-size:13px; font-weight:600; }
+    .popular-desc { font-size:11px; color:var(--text-2); margin-top:1px; }
+    .gradient-actions { display:flex; gap:8px; }
+    .grad-action-btn {
+      flex:1; padding:13px 8px; border-radius:var(--radius-sm);
+      font-size:14px; font-weight:600;
+      display:flex; align-items:center; justify-content:center; gap:7px;
+      transition:opacity .15s, transform .12s;
+    }
+    .grad-action-btn:active { opacity:.85; transform:scale(.97); }
+    .grad-action-btn.primary  { background:var(--accent); color:#fff; }
+    .grad-action-btn.secondary{ background:var(--bg-elevated); color:var(--text-1); }
+
+    /* =================================================================
+       PAGE 5 — SETTINGS
+    ================================================================= */
+    .settings-page { padding: 0 0 24px; }
+
+    /* Group kartu pengaturan — mirip iOS Settings */
+    .settings-group {
+      margin: 16px 12px 0;
+    }
+    .settings-group-label {
+      font-size: 12px; font-weight: 600; letter-spacing: 0.5px;
+      text-transform: uppercase; color: var(--text-3);
+      padding: 0 4px 6px;
+    }
+    .settings-card {
+      background: var(--bg-card); border-radius: var(--radius);
+      border: 1px solid var(--border); overflow: hidden;
+    }
+    .settings-row {
+      display: flex; align-items: center;
+      padding: 14px 16px; gap: 14px;
+      border-bottom: 1px solid var(--divider);
       transition: background .15s;
     }
-    .copy-css-btn:active { background: var(--accent); color: #fff; }
+    .settings-row:last-child { border-bottom: none; }
+    .settings-row:active { background: var(--ripple); }
 
-    /* Gradien populer */
-    .popular-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 10px;
-    }
-    .popular-item {
-      border-radius: var(--radius-sm); overflow: hidden;
-      cursor: pointer; transition: transform .2s;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.3);
-    }
-    .popular-item:active { transform: scale(0.96); }
-    .popular-swatch {
-      height: 72px; width: 100%;
-    }
-    .popular-info {
-      background: var(--bg-card); padding: 8px 12px;
-    }
-    .popular-name { font-size: 13px; font-weight: 600; }
-    .popular-desc { font-size: 11px; color: var(--text-2); margin-top: 1px; }
-
-    /* Download & Share tombol */
-    .gradient-actions {
-      display: flex; gap: 8px;
-    }
-    .grad-action-btn {
-      flex: 1; padding: 13px 8px;
-      border-radius: var(--radius-sm); font-size: 14px; font-weight: 600;
-      display: flex; align-items: center; justify-content: center; gap: 7px;
-      transition: opacity .15s, transform .12s;
-    }
-    .grad-action-btn:active { opacity: .85; transform: scale(.97); }
-    .grad-action-btn.primary { background: var(--accent); color: #fff; }
-    .grad-action-btn.secondary { background: var(--bg-elevated); color: var(--text-1); }
-
-    /* =====================================================================
-       TOAST GLOBAL
-    ===================================================================== */
-    #toast {
-      position: fixed; bottom: 28px; left: 50%;
-      transform: translateX(-50%) translateY(12px);
-      background: rgba(40,40,42,0.95); color: #f2f2f7;
-      padding: 10px 22px; border-radius: 24px;
-      font-size: 13px; font-weight: 500; white-space: nowrap;
-      pointer-events: none; opacity: 0; z-index: 999;
-      box-shadow: 0 4px 24px rgba(0,0,0,0.4);
-      transition: opacity .22s, transform .22s;
-    }
-    #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-
-    /* =====================================================================
-       BOTTOM NAVIGATION BAR (mobile-friendly)
-    ===================================================================== */
-    #bottom-nav {
+    .settings-row-icon {
+      width: 32px; height: 32px; border-radius: var(--radius-xs);
+      display: flex; align-items: center; justify-content: center;
       flex-shrink: 0;
-      display: flex; align-items: stretch;
-      background: var(--appbar-bg);
+    }
+    .settings-row-content { flex: 1; min-width: 0; }
+    .settings-row-label { font-size: 15px; font-weight: 500; }
+    .settings-row-desc  { font-size: 12px; color: var(--text-2); margin-top: 1px; }
+
+    /* Toggle switch ala iOS */
+    .toggle-switch {
+      position: relative; width: 50px; height: 30px; flex-shrink: 0;
+    }
+    .toggle-switch input { opacity: 0; width: 0; height: 0; position: absolute; }
+    .toggle-track {
+      position: absolute; inset: 0; border-radius: 15px;
+      background: var(--bg-elevated); transition: background .25s;
+      cursor: pointer;
+    }
+    .toggle-switch input:checked + .toggle-track { background: var(--accent); }
+    .toggle-thumb {
+      position: absolute; top: 3px; left: 3px;
+      width: 24px; height: 24px; border-radius: 50%;
+      background: #fff; transition: transform .25s cubic-bezier(.4,0,.2,1);
+      box-shadow: 0 1px 4px rgba(0,0,0,.3);
+      pointer-events: none;
+    }
+    .toggle-switch input:checked ~ .toggle-thumb { transform: translateX(20px); }
+
+    /* Select dropdown custom */
+    .settings-select {
+      background: var(--bg-input); border: 1px solid var(--border);
+      border-radius: var(--radius-xs); padding: 6px 10px;
+      color: var(--text-1); font-size: 14px; font-weight: 500;
+      outline: none; -webkit-appearance: none; appearance: none;
+      cursor: pointer; min-width: 120px; text-align: right;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23888' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: left 8px center;
+      padding-left: 28px;
+    }
+
+    /* Grid tema warna — 5 kotak pilihan tema */
+    .theme-grid {
+      display: grid; grid-template-columns: repeat(5,1fr); gap: 8px;
+      padding: 12px;
+    }
+    .theme-swatch {
+      display: flex; flex-direction: column; align-items: center; gap: 6px;
+      cursor: pointer;
+    }
+    .theme-circle {
+      width: 44px; height: 44px; border-radius: 50%;
+      border: 2.5px solid transparent;
+      transition: border-color .2s, transform .15s;
+      box-shadow: 0 2px 8px rgba(0,0,0,.3);
+    }
+    .theme-swatch.active .theme-circle { border-color: var(--accent); transform: scale(1.1); }
+    .theme-swatch:active .theme-circle { transform: scale(.93); }
+    .theme-name { font-size: 10px; font-weight: 500; color: var(--text-2); }
+
+    /* Font size preview strip */
+    .font-preview {
+      padding: 12px 16px;
+      font-size: var(--font-size-base);
+      color: var(--text-2); line-height: 1.5;
+      border-top: 1px solid var(--divider);
+    }
+
+    /* Slider pengatur ukuran font */
+    .size-slider {
+      -webkit-appearance: none; appearance: none;
+      width: 100%; height: 4px; border-radius: 2px;
+      background: var(--bg-elevated); outline: none;
+      accent-color: var(--accent); cursor: pointer;
+      margin-top: 4px;
+    }
+    .size-slider-wrap {
+      padding: 8px 16px 14px;
+      border-top: 1px solid var(--divider);
+      display: flex; flex-direction: column; gap: 8px;
+    }
+    .size-labels {
+      display: flex; justify-content: space-between;
+      font-size: 11px; color: var(--text-3);
+    }
+
+    /* Accent color picker — row of colored circles */
+    .accent-row {
+      display: flex; gap: 10px; padding: 12px 16px;
+      flex-wrap: wrap;
+    }
+    .accent-dot {
+      width: 32px; height: 32px; border-radius: 50%;
+      cursor: pointer; border: 2.5px solid transparent;
+      transition: border-color .2s, transform .15s;
+      box-shadow: 0 2px 6px rgba(0,0,0,.3);
+    }
+    .accent-dot.active { border-color: var(--text-1); transform: scale(1.15); }
+    .accent-dot:active { transform: scale(.9); }
+
+    /* =================================================================
+       PAGE 6 — TENTANG APLIKASI
+    ================================================================= */
+    .about-hero {
+      display: flex; flex-direction: column; align-items: center;
+      padding: 32px 20px 20px; gap: 12px;
+    }
+    .about-app-icon {
+      width: 80px; height: 80px; border-radius: 24px;
+      background: linear-gradient(135deg, #4287f5, #9b59b6);
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 8px 32px rgba(66,135,245,.4);
+      animation: iconFloat 3s ease-in-out infinite;
+    }
+    @keyframes iconFloat {
+      0%,100% { transform: translateY(0); }
+      50%      { transform: translateY(-6px); }
+    }
+    .about-app-name { font-size: 24px; font-weight: 700; }
+    .about-version  { font-size: 14px; color: var(--text-2); }
+    .about-tagline  { font-size: 14px; color: var(--text-2); text-align: center; line-height: 1.6; }
+
+    .about-stats {
+      display: grid; grid-template-columns: repeat(3,1fr);
+      gap: 8px; margin: 0 12px;
+    }
+    .stat-card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--radius-sm); padding: 14px 8px;
+      text-align: center;
+    }
+    .stat-number { font-size: 22px; font-weight: 700; color: var(--accent); }
+    .stat-label  { font-size: 11px; color: var(--text-2); margin-top: 2px; }
+
+    .about-links { margin: 12px; display: flex; flex-direction: column; gap: 0; }
+    .about-link-card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--radius); overflow: hidden;
+    }
+    .about-link-row {
+      display: flex; align-items: center; gap: 14px;
+      padding: 14px 16px; border-bottom: 1px solid var(--divider);
+      cursor: pointer; transition: background .15s;
+    }
+    .about-link-row:last-child { border-bottom: none; }
+    .about-link-row:active { background: var(--ripple); }
+    .about-link-icon {
+      width: 36px; height: 36px; border-radius: var(--radius-xs);
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .about-link-text { flex: 1; }
+    .about-link-title { font-size: 15px; font-weight: 500; }
+    .about-link-sub   { font-size: 12px; color: var(--text-2); margin-top: 1px; }
+
+    .about-footer {
+      text-align: center; padding: 24px 20px 8px;
+      font-size: 12px; color: var(--text-3); line-height: 1.8;
+    }
+
+    /* =================================================================
+       BOTTOM NAV
+    ================================================================= */
+    #bottom-nav {
+      flex-shrink: 0; display: flex; align-items: stretch;
+      background: var(--nav-bg);
       backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
       border-top: 1px solid var(--divider);
-      padding-bottom: env(safe-area-inset-bottom, 0);
-      z-index: 20;
+      padding-bottom: env(safe-area-inset-bottom, 0); z-index: 20;
+      transition: background .3s;
     }
     .nav-item {
       flex: 1; display: flex; flex-direction: column;
       align-items: center; justify-content: center;
-      gap: 3px; padding: 8px 4px 6px;
-      cursor: pointer; position: relative;
-      transition: opacity .15s;
-      color: var(--text-3);
+      gap: 3px; padding: 8px 4px 6px; cursor: pointer;
+      color: var(--text-3); position: relative;
+      transition: color .15s;
     }
     .nav-item.active { color: var(--accent); }
-    .nav-item-label { font-size: 10px; font-weight: 500; }
+    .nav-item-label  { font-size: 10px; font-weight: 500; }
     .nav-indicator {
       position: absolute; top: 0; left: 50%;
-      transform: translateX(-50%);
-      width: 24px; height: 3px;
+      transform: translateX(-50%); width: 24px; height: 3px;
       background: var(--accent); border-radius: 0 0 3px 3px;
       opacity: 0; transition: opacity .2s;
     }
@@ -644,21 +819,20 @@
       display: flex; align-items: center; justify-content: center;
     }
 
-    /* =====================================================================
-       ANIMASI TAMBAHAN
-    ===================================================================== */
-    @keyframes popIn {
-      0%   { transform: scale(0.8); opacity: 0; }
-      70%  { transform: scale(1.05); }
-      100% { transform: scale(1); opacity: 1; }
+    /* =================================================================
+       TOAST
+    ================================================================= */
+    #toast {
+      position: fixed; bottom: 28px; left: 50%;
+      transform: translateX(-50%) translateY(12px);
+      background: rgba(40,40,42,.96); color: #f2f2f7;
+      padding: 10px 22px; border-radius: 24px;
+      font-size: 13px; font-weight: 500; white-space: nowrap;
+      pointer-events: none; opacity: 0; z-index: 999;
+      box-shadow: 0 4px 24px rgba(0,0,0,.4);
+      transition: opacity .22s, transform .22s;
     }
-    .pop-in { animation: popIn 0.25s cubic-bezier(0.34,1.56,0.64,1) both; }
-
-    /* Skeleton loading state untuk daftar kosong yang sedang dimuat */
-    @keyframes shimmer {
-      0%   { background-position: -200px 0; }
-      100% { background-position: calc(200px + 100%) 0; }
-    }
+    #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
   </style>
 </head>
 <body>
@@ -670,6 +844,10 @@
       <i data-lucide="menu" width="22" height="22"></i>
     </button>
     <span id="appbar-title">Pemilih Warna</span>
+    <!-- Tombol VIP Premium — akses dari appbar saja -->
+    <button id="vip-btn" title="Upgrade ke Pro">
+      <span class="vip-star">★</span> PRO
+    </button>
     <button class="ab-icon-btn" id="share-btn">
       <i data-lucide="share-2" width="20" height="20"></i>
     </button>
@@ -678,11 +856,8 @@
   <!-- ====== ROUTER VIEW ====== -->
   <div id="router-view">
 
-    <!-- ========================================
-         PAGE 1: PEMILIH WARNA
-    ======================================== -->
+    <!-- PAGE 1: PEMILIH WARNA -->
     <div class="page active" data-page="picker">
-      <!-- Canvas picker -->
       <div id="picker-area">
         <div id="color-preview"></div>
         <div id="picker-canvas-wrap">
@@ -690,10 +865,8 @@
           <div id="picker-thumb"></div>
         </div>
       </div>
-      <!-- Panel bawah -->
       <div id="picker-bottom">
         <div id="hue-track"><div id="hue-thumb"></div></div>
-        <!-- HEX editable -->
         <div class="hex-card">
           <div class="hex-card-left">
             <span class="card-label">HEX</span>
@@ -702,103 +875,64 @@
           <button class="copy-btn" id="copy-btn"><i data-lucide="copy" width="20" height="20"></i></button>
           <div class="copy-flash" id="copy-flash">Tersalin!</div>
         </div>
-        <!-- Grid RGB/CMYK/HSV/HSL -->
         <div class="info-grid">
-          <div class="info-card">
-            <span class="card-label">RGB</span>
-            <textarea id="rgb-input" class="card-input" rows="1" spellcheck="false">66, 135, 245</textarea>
-          </div>
-          <div class="info-card">
-            <span class="card-label">CMYK</span>
-            <textarea id="cmyk-input" class="card-input" rows="2" spellcheck="false">73%, 45%, 0%, 4%</textarea>
-          </div>
-          <div class="info-card">
-            <span class="card-label">HSV</span>
-            <textarea id="hsv-input" class="card-input" rows="1" spellcheck="false">217°, 73%, 96%</textarea>
-          </div>
-          <div class="info-card">
-            <span class="card-label">HSL</span>
-            <textarea id="hsl-input" class="card-input" rows="1" spellcheck="false">217°, 90%, 61%</textarea>
-          </div>
+          <div class="info-card"><span class="card-label">RGB</span><textarea id="rgb-input" class="card-input" rows="1" spellcheck="false">66, 135, 245</textarea></div>
+          <div class="info-card"><span class="card-label">CMYK</span><textarea id="cmyk-input" class="card-input" rows="2" spellcheck="false">73%, 45%, 0%, 4%</textarea></div>
+          <div class="info-card"><span class="card-label">HSV</span><textarea id="hsv-input" class="card-input" rows="1" spellcheck="false">217°, 73%, 96%</textarea></div>
+          <div class="info-card"><span class="card-label">HSL</span><textarea id="hsl-input" class="card-input" rows="1" spellcheck="false">217°, 90%, 61%</textarea></div>
         </div>
-        <!-- Simpan ke palet -->
         <button id="save-to-palette-btn">
-          <i data-lucide="bookmark-plus" width="18" height="18"></i>
-          Simpan ke Palet
+          <i data-lucide="bookmark-plus" width="18" height="18"></i> Simpan ke Palet
         </button>
       </div>
     </div>
 
-    <!-- ========================================
-         PAGE 2: PALET TERSIMPAN
-    ======================================== -->
+    <!-- PAGE 2: PALET -->
     <div class="page" data-page="palette">
       <div class="page-header">
-        <div>
-          <h2>Palet Tersimpan</h2>
-          <div class="page-header-meta" id="palette-count-label">0 warna</div>
-        </div>
-        <button class="chip" id="clear-palette-btn">
-          <i data-lucide="trash-2" width="14" height="14"></i> Hapus Semua
-        </button>
+        <div><h2>Palet Tersimpan</h2><div class="page-header-meta" id="palette-count-label">0 warna</div></div>
+        <button class="chip" id="clear-palette-btn"><i data-lucide="trash-2" width="14" height="14"></i> Hapus Semua</button>
       </div>
       <div class="page-scroll">
         <div class="palette-grid" id="palette-grid"></div>
         <div class="empty-state" id="palette-empty" style="display:none">
           <div class="empty-icon"><i data-lucide="bookmark" width="32" height="32"></i></div>
           <div class="empty-title">Belum Ada Warna</div>
-          <div class="empty-desc">Pilih warna di halaman picker, lalu ketuk "Simpan ke Palet".</div>
+          <div class="empty-desc">Pilih warna di Picker, lalu ketuk "Simpan ke Palet".</div>
         </div>
       </div>
     </div>
 
-    <!-- ========================================
-         PAGE 3: RIWAYAT
-    ======================================== -->
+    <!-- PAGE 3: RIWAYAT -->
     <div class="page" data-page="history">
       <div class="page-header">
-        <div>
-          <h2>Riwayat</h2>
-          <div class="page-header-meta" id="history-count-label">0 entri</div>
-        </div>
-        <button class="chip" id="clear-history-btn">
-          <i data-lucide="trash-2" width="14" height="14"></i> Hapus Semua
-        </button>
+        <div><h2>Riwayat</h2><div class="page-header-meta" id="history-count-label">0 entri</div></div>
+        <button class="chip" id="clear-history-btn"><i data-lucide="trash-2" width="14" height="14"></i> Hapus Semua</button>
       </div>
       <div class="page-scroll">
         <div class="history-list" id="history-list"></div>
         <div class="empty-state" id="history-empty" style="display:none">
           <div class="empty-icon"><i data-lucide="clock" width="32" height="32"></i></div>
           <div class="empty-title">Belum Ada Riwayat</div>
-          <div class="empty-desc">Setiap warna yang kamu pilih akan otomatis tersimpan di sini.</div>
+          <div class="empty-desc">Setiap warna yang kamu pilih akan tersimpan di sini.</div>
         </div>
       </div>
     </div>
 
-    <!-- ========================================
-         PAGE 4: GRADIENT MAKER
-    ======================================== -->
+    <!-- PAGE 4: GRADIENT MAKER -->
     <div class="page" data-page="gradient">
-      <!-- Preview Box -->
       <div class="gradient-preview-box">
         <div id="gradient-preview"></div>
         <span class="gradient-preview-badge" id="gradient-type-badge">Linear · 135°</span>
       </div>
-
       <div class="page-scroll">
-
-        <!-- CSS Output -->
         <div class="gradient-section">
           <div class="gradient-section-title">CSS Output</div>
           <div class="css-output">
             <div id="css-code">background: linear-gradient(135deg, #667eea, #764ba2);</div>
-            <button class="copy-css-btn" id="copy-css-btn">
-              <i data-lucide="copy" width="14" height="14"></i>
-            </button>
+            <button class="copy-css-btn" id="copy-css-btn"><i data-lucide="copy" width="14" height="14"></i></button>
           </div>
         </div>
-
-        <!-- Tipe gradien -->
         <div class="gradient-section" style="padding-top:0">
           <div class="gradient-section-title">Tipe</div>
           <div class="type-row">
@@ -807,8 +941,6 @@
             <button class="type-btn" data-type="conic">Conic</button>
           </div>
         </div>
-
-        <!-- Arah (hanya untuk linear) -->
         <div class="gradient-section" style="padding-top:0" id="direction-section">
           <div class="gradient-section-title">Arah</div>
           <div class="direction-grid">
@@ -822,41 +954,248 @@
             <button class="dir-btn" data-angle="315"><i data-lucide="arrow-up-left" width="16" height="16"></i><span>315°</span></button>
           </div>
         </div>
-
-        <!-- Stop warna -->
         <div class="gradient-section" style="padding-top:0">
           <div class="gradient-section-title">Stop Warna</div>
           <div class="gradient-stops" id="gradient-stops"></div>
-          <button class="add-stop-btn" id="add-stop-btn">
-            <i data-lucide="plus-circle" width="16" height="16"></i> Tambah Stop Warna
-          </button>
+          <button class="add-stop-btn" id="add-stop-btn"><i data-lucide="plus-circle" width="16" height="16"></i> Tambah Stop Warna</button>
         </div>
-
-        <!-- Aksi -->
         <div class="gradient-section" style="padding-top:0">
           <div class="gradient-actions">
-            <button class="grad-action-btn primary" id="save-gradient-btn">
-              <i data-lucide="bookmark-plus" width="16" height="16"></i> Simpan
-            </button>
-            <button class="grad-action-btn secondary" id="copy-gradient-btn">
-              <i data-lucide="copy" width="16" height="16"></i> Salin CSS
-            </button>
+            <button class="grad-action-btn primary" id="save-gradient-btn"><i data-lucide="bookmark-plus" width="16" height="16"></i> Simpan</button>
+            <button class="grad-action-btn secondary" id="copy-gradient-btn"><i data-lucide="copy" width="16" height="16"></i> Salin CSS</button>
           </div>
         </div>
-
-        <!-- Gradien populer -->
         <div class="gradient-section" style="padding-top:0">
           <div class="gradient-section-title">Gradien Populer 🔥</div>
           <div class="popular-grid" id="popular-grid"></div>
         </div>
+        <div style="height:12px"></div>
+      </div>
+    </div>
 
-        <div style="height: 12px;"></div>
+    <!-- PAGE 5: SETTINGS (hanya bisa diakses dari drawer) -->
+    <div class="page" data-page="settings">
+      <div class="page-scroll settings-page">
+
+        <!-- Tampilan & Tema -->
+        <div class="settings-group">
+          <div class="settings-group-label">Tampilan & Tema</div>
+          <div class="settings-card">
+            <!-- Grid pilihan tema -->
+            <div class="theme-grid" id="theme-grid">
+              <!-- diisi JS -->
+            </div>
+            <!-- Font Size Slider -->
+            <div class="size-slider-wrap">
+              <div class="size-labels"><span>Ukuran Font</span><span id="font-size-label">15px</span></div>
+              <input type="range" class="size-slider" id="font-size-slider" min="12" max="20" step="1" value="15" />
+              <div class="size-labels"><span style="font-size:11px">Kecil</span><span style="font-size:15px">Normal</span><span style="font-size:19px">Besar</span></div>
+            </div>
+            <!-- Preview teks -->
+            <div class="font-preview" id="font-preview-text">
+              Halo! Ini adalah preview teks dengan ukuran font yang kamu pilih. Color Picker Pro memudahkan kamu memilih warna impian.
+            </div>
+          </div>
+        </div>
+
+        <!-- Warna Aksen -->
+        <div class="settings-group">
+          <div class="settings-group-label">Warna Aksen</div>
+          <div class="settings-card">
+            <div class="accent-row" id="accent-row">
+              <!-- diisi JS -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Font Family -->
+        <div class="settings-group">
+          <div class="settings-group-label">Tipografi</div>
+          <div class="settings-card">
+            <div class="settings-row">
+              <div class="settings-row-icon" style="background:rgba(66,135,245,.15);">
+                <i data-lucide="type" width="16" height="16" style="color:var(--accent)"></i>
+              </div>
+              <div class="settings-row-content">
+                <div class="settings-row-label">Font Family</div>
+                <div class="settings-row-desc">Pilih keluarga font antarmuka</div>
+              </div>
+              <select class="settings-select" id="font-family-select">
+                <option value="'DM Sans', sans-serif">DM Sans</option>
+                <option value="'Inter', sans-serif">Inter</option>
+                <option value="'Sora', sans-serif">Sora</option>
+                <option value="'Nunito', sans-serif">Nunito</option>
+                <option value="'Outfit', sans-serif">Outfit</option>
+                <option value="'Poppins', sans-serif">Poppins</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Perilaku Aplikasi -->
+        <div class="settings-group">
+          <div class="settings-group-label">Perilaku</div>
+          <div class="settings-card">
+            <div class="settings-row">
+              <div class="settings-row-icon" style="background:rgba(52,199,89,.15);">
+                <i data-lucide="history" width="16" height="16" style="color:#34c759"></i>
+              </div>
+              <div class="settings-row-content">
+                <div class="settings-row-label">Simpan Riwayat Otomatis</div>
+                <div class="settings-row-desc">Catat warna saat kamu menggeser slider</div>
+              </div>
+              <label class="toggle-switch">
+                <input type="checkbox" id="toggle-history" checked />
+                <div class="toggle-track"></div>
+                <div class="toggle-thumb"></div>
+              </label>
+            </div>
+            <div class="settings-row">
+              <div class="settings-row-icon" style="background:rgba(255,149,0,.15);">
+                <i data-lucide="vibrate" width="16" height="16" style="color:#ff9500"></i>
+              </div>
+              <div class="settings-row-content">
+                <div class="settings-row-label">Haptic Feedback</div>
+                <div class="settings-row-desc">Getaran saat menyalin warna</div>
+              </div>
+              <label class="toggle-switch">
+                <input type="checkbox" id="toggle-haptic" checked />
+                <div class="toggle-track"></div>
+                <div class="toggle-thumb"></div>
+              </label>
+            </div>
+            <div class="settings-row">
+              <div class="settings-row-icon" style="background:rgba(175,82,222,.15);">
+                <i data-lucide="moon" width="16" height="16" style="color:#af52de"></i>
+              </div>
+              <div class="settings-row-content">
+                <div class="settings-row-label">Ikuti Tema Sistem</div>
+                <div class="settings-row-desc">Otomatis gelap/terang sesuai OS</div>
+              </div>
+              <label class="toggle-switch">
+                <input type="checkbox" id="toggle-system-theme" />
+                <div class="toggle-track"></div>
+                <div class="toggle-thumb"></div>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Data -->
+        <div class="settings-group">
+          <div class="settings-group-label">Data</div>
+          <div class="settings-card">
+            <div class="settings-row" id="export-data-btn" style="cursor:pointer">
+              <div class="settings-row-icon" style="background:rgba(0,122,255,.15);">
+                <i data-lucide="download" width="16" height="16" style="color:#007aff"></i>
+              </div>
+              <div class="settings-row-content">
+                <div class="settings-row-label">Ekspor Data</div>
+                <div class="settings-row-desc">Simpan palet & riwayat sebagai JSON</div>
+              </div>
+              <i data-lucide="chevron-right" width="16" height="16" style="color:var(--text-3)"></i>
+            </div>
+            <div class="settings-row" id="reset-data-btn" style="cursor:pointer">
+              <div class="settings-row-icon" style="background:rgba(255,59,48,.15);">
+                <i data-lucide="trash-2" width="16" height="16" style="color:var(--danger)"></i>
+              </div>
+              <div class="settings-row-content">
+                <div class="settings-row-label" style="color:var(--danger)">Reset Semua Data</div>
+                <div class="settings-row-desc">Hapus palet, riwayat, dan setelan</div>
+              </div>
+              <i data-lucide="chevron-right" width="16" height="16" style="color:var(--text-3)"></i>
+            </div>
+          </div>
+        </div>
+
+        <div style="height:16px"></div>
+      </div>
+    </div>
+
+    <!-- PAGE 6: TENTANG APLIKASI (hanya bisa diakses dari drawer) -->
+    <div class="page" data-page="about">
+      <div class="page-scroll">
+        <div class="about-hero">
+          <div class="about-app-icon">
+            <i data-lucide="pipette" width="36" height="36" color="#fff"></i>
+          </div>
+          <div class="about-app-name">Color Picker Pro</div>
+          <div class="about-version">Versi 2.1.0 · Build 2024</div>
+          <div class="about-tagline">Aplikasi pilih warna profesional dengan konversi real-time, palet tersimpan, riwayat lengkap, dan pembuat gradien.</div>
+        </div>
+
+        <!-- Statistik -->
+        <div class="about-stats">
+          <div class="stat-card">
+            <div class="stat-number">5</div>
+            <div class="stat-label">Format Warna</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">16</div>
+            <div class="stat-label">Gradien Populer</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">50</div>
+            <div class="stat-label">Maks Riwayat</div>
+          </div>
+        </div>
+
+        <!-- Tautan & Info -->
+        <div class="about-links" style="margin-top:16px">
+          <div class="about-link-card">
+            <div class="about-link-row" id="about-changelog">
+              <div class="about-link-icon" style="background:rgba(66,135,245,.15)">
+                <i data-lucide="list-checks" width="18" height="18" style="color:var(--accent)"></i>
+              </div>
+              <div class="about-link-text">
+                <div class="about-link-title">Catatan Perubahan</div>
+                <div class="about-link-sub">Apa yang baru di versi ini</div>
+              </div>
+              <i data-lucide="chevron-right" width="16" height="16" style="color:var(--text-3)"></i>
+            </div>
+            <div class="about-link-row" id="about-privacy">
+              <div class="about-link-icon" style="background:rgba(52,199,89,.15)">
+                <i data-lucide="shield" width="18" height="18" style="color:#34c759"></i>
+              </div>
+              <div class="about-link-text">
+                <div class="about-link-title">Kebijakan Privasi</div>
+                <div class="about-link-sub">Bagaimana data kamu digunakan</div>
+              </div>
+              <i data-lucide="chevron-right" width="16" height="16" style="color:var(--text-3)"></i>
+            </div>
+            <div class="about-link-row" id="about-rate">
+              <div class="about-link-icon" style="background:rgba(255,214,0,.15)">
+                <i data-lucide="star" width="18" height="18" style="color:#ffd600"></i>
+              </div>
+              <div class="about-link-text">
+                <div class="about-link-title">Beri Ulasan</div>
+                <div class="about-link-sub">Bantu kami berkembang dengan bintang 5 ⭐</div>
+              </div>
+              <i data-lucide="chevron-right" width="16" height="16" style="color:var(--text-3)"></i>
+            </div>
+            <div class="about-link-row" id="about-share-app">
+              <div class="about-link-icon" style="background:rgba(255,149,0,.15)">
+                <i data-lucide="share-2" width="18" height="18" style="color:#ff9500"></i>
+              </div>
+              <div class="about-link-text">
+                <div class="about-link-title">Bagikan Aplikasi</div>
+                <div class="about-link-sub">Rekomendasikan ke teman-temanmu</div>
+              </div>
+              <i data-lucide="chevron-right" width="16" height="16" style="color:var(--text-3)"></i>
+            </div>
+          </div>
+        </div>
+
+        <div class="about-footer">
+          Dibuat dengan ❤️ menggunakan HTML, CSS &amp; JavaScript murni.<br/>
+          © 2024 Color Picker Pro. Semua hak dilindungi.
+        </div>
       </div>
     </div>
 
   </div><!-- /router-view -->
 
-  <!-- ====== BOTTOM NAVIGATION ====== -->
+  <!-- ====== BOTTOM NAV ====== -->
   <nav id="bottom-nav">
     <div class="nav-item active" data-nav="picker">
       <div class="nav-indicator"></div>
@@ -894,10 +1233,13 @@
       <i data-lucide="pipette" width="28" height="28" color="#fff"></i>
     </div>
     <h2>Color Picker Pro</h2>
-    <p>Versi 2.0 — SPA Edition</p>
+    <p>Versi 2.1 — SPA Edition</p>
   </div>
+  <!-- Pull handle indicator -->
+  <div id="drawer-handle"><div class="handle-pill"></div></div>
+
   <div class="drawer-list">
-    <div class="drawer-section-title">Menu</div>
+    <div class="drawer-section-title">Menu Utama</div>
     <div class="drawer-item active" data-route="picker">
       <div class="di-icon"><i data-lucide="pipette" width="16" height="16"></i></div>
       <span class="di-text">Pemilih Warna</span>
@@ -915,12 +1257,13 @@
       <span class="di-text">Gradient Maker</span>
     </div>
     <div class="drawer-divider"></div>
-    <div class="drawer-section-title">Pengaturan</div>
-    <div class="drawer-item" id="drawer-settings">
+    <!-- Settings & About — HANYA bisa diakses dari drawer -->
+    <div class="drawer-section-title">Lainnya</div>
+    <div class="drawer-item" data-route="settings">
       <div class="di-icon"><i data-lucide="settings" width="16" height="16"></i></div>
-      <span class="di-text">Setelan</span>
+      <span class="di-text">Pengaturan</span>
     </div>
-    <div class="drawer-item" id="drawer-about">
+    <div class="drawer-item" data-route="about">
       <div class="di-icon"><i data-lucide="info" width="16" height="16"></i></div>
       <span class="di-text">Tentang Aplikasi</span>
     </div>
@@ -931,563 +1274,432 @@
 
 <script>
 /* ==============================================================
-   COLOR PICKER PRO v2.0 — SPA Architecture
-   ==============================================================
-   Arsitektur terdiri dari beberapa lapisan yang terpisah dengan jelas:
-
-   1. ColorConverter  — Utilitas konversi warna (pure functions)
-   2. Store           — Manajemen state & persistensi (localStorage)
-   3. Router          — Navigasi SPA + animasi transisi halaman
-   4. DrawerController— Logika side drawer
-   5. PickerCanvas    — Canvas SV + drag gesture
-   6. HueSlider       — Slider pelangi + drag gesture
-   7. GradientMaker   — Logika halaman pembuat gradient
-   8. ColorApp        — Controller utama yang mengorkestrasi semua
+   COLOR PICKER PRO v2.1 — Full SPA with Settings & About
+   Tambahan dari v2.0:
+   - Halaman Settings (tema, aksen, font, toggle, data)
+   - Halaman About
+   - Halaman Settings & About HANYA bisa dibuka dari Drawer
+   - Drawer tanpa shadow
+   - Swipe gesture drawer yang disempurnakan (real-time follow finger)
+   - VIP/PRO badge di AppBar
    ============================================================== */
 
-/* ==============================================================
-   ColorConverter — Semua konversi warna dalam pure static methods
-   ============================================================== */
+/* ---- ColorConverter (tidak berubah) ---- */
 class ColorConverter {
-  static hsvToRgb(h, s, v) {
-    const i=Math.floor(h/60)%6, f=(h/60)-Math.floor(h/60);
-    const p=v*(1-s), q=v*(1-f*s), t=v*(1-(1-f)*s);
-    const m=[[v,t,p],[q,v,p],[p,v,t],[p,q,v],[t,p,v],[v,p,q]][i];
-    return { r:Math.round(m[0]*255), g:Math.round(m[1]*255), b:Math.round(m[2]*255) };
-  }
-  static rgbToHsv(r, g, b) {
-    const rn=r/255,gn=g/255,bn=b/255;
-    const max=Math.max(rn,gn,bn),min=Math.min(rn,gn,bn),d=max-min;
-    let h=0;
-    if(d) { switch(max) {
-      case rn: h=((gn-bn)/d+(gn<bn?6:0))/6; break;
-      case gn: h=((bn-rn)/d+2)/6; break;
-      default: h=((rn-gn)/d+4)/6;
-    }}
-    return { h:Math.round(h*360), s:max?d/max:0, v:max };
-  }
-  static rgbToHex(r,g,b) {
-    return '#'+[r,g,b].map(n=>n.toString(16).padStart(2,'0')).join('');
-  }
-  static hexToRgb(hex) {
-    const c=hex.replace(/^#/,'');
-    const full=c.length===3?c.split('').map(x=>x+x).join(''):c;
-    if(!/^[0-9a-fA-F]{6}$/.test(full)) return null;
-    return { r:parseInt(full.slice(0,2),16), g:parseInt(full.slice(2,4),16), b:parseInt(full.slice(4,6),16) };
-  }
-  static rgbToCmyk(r,g,b) {
-    const [rn,gn,bn]=[r/255,g/255,b/255];
-    const k=1-Math.max(rn,gn,bn);
-    if(k>=1) return {c:0,m:0,y:0,k:100};
-    const d=1-k;
-    return { c:Math.round(((1-rn-k)/d)*100), m:Math.round(((1-gn-k)/d)*100), y:Math.round(((1-bn-k)/d)*100), k:Math.round(k*100) };
-  }
-  static cmykToRgb(c,m,y,k) {
-    const d=1-k/100;
-    return { r:Math.round(255*(1-c/100)*d), g:Math.round(255*(1-m/100)*d), b:Math.round(255*(1-y/100)*d) };
-  }
-  static rgbToHsl(r,g,b) {
-    const [rn,gn,bn]=[r/255,g/255,b/255];
-    const max=Math.max(rn,gn,bn),min=Math.min(rn,gn,bn),l=(max+min)/2;
-    if(max===min) return {h:0,s:0,l:Math.round(l*100)};
-    const d=max-min, s=l>.5?d/(2-max-min):d/(max+min);
-    let h;
-    switch(max) {
-      case rn: h=((gn-bn)/d+(gn<bn?6:0))/6; break;
-      case gn: h=((bn-rn)/d+2)/6; break;
-      default: h=((rn-gn)/d+4)/6;
-    }
-    return { h:Math.round(h*360), s:Math.round(s*100), l:Math.round(l*100) };
-  }
-  static hslToRgb(h,s,l) {
-    const sn=s/100,ln=l/100;
-    const c=(1-Math.abs(2*ln-1))*sn, x=c*(1-Math.abs((h/60)%2-1)), m=ln-c/2;
-    let r=0,g=0,b=0;
-    if(h<60){r=c;g=x;}else if(h<120){r=x;g=c;}else if(h<180){g=c;b=x;}
-    else if(h<240){g=x;b=c;}else if(h<300){r=x;b=c;}else{r=c;b=x;}
-    return { r:Math.round((r+m)*255), g:Math.round((g+m)*255), b:Math.round((b+m)*255) };
-  }
-  static parseNumbers(str) {
-    const n=str.match(/[\d.]+/g);
-    return n?n.map(Number):[];
-  }
-  /* Tentukan apakah teks di atas warna ini harus hitam atau putih */
-  static contrastColor(hex) {
-    const rgb=ColorConverter.hexToRgb(hex);
-    if(!rgb) return '#ffffff';
-    const lum=(0.299*rgb.r+0.587*rgb.g+0.114*rgb.b)/255;
-    return lum>0.5?'#1c1c1e':'#f2f2f7';
-  }
+  static hsvToRgb(h,s,v){const i=Math.floor(h/60)%6,f=(h/60)-Math.floor(h/60);const p=v*(1-s),q=v*(1-f*s),t=v*(1-(1-f)*s);const m=[[v,t,p],[q,v,p],[p,v,t],[p,q,v],[t,p,v],[v,p,q]][i];return{r:Math.round(m[0]*255),g:Math.round(m[1]*255),b:Math.round(m[2]*255)};}
+  static rgbToHsv(r,g,b){const rn=r/255,gn=g/255,bn=b/255;const max=Math.max(rn,gn,bn),min=Math.min(rn,gn,bn),d=max-min;let h=0;if(d){switch(max){case rn:h=((gn-bn)/d+(gn<bn?6:0))/6;break;case gn:h=((bn-rn)/d+2)/6;break;default:h=((rn-gn)/d+4)/6;}}return{h:Math.round(h*360),s:max?d/max:0,v:max};}
+  static rgbToHex(r,g,b){return'#'+[r,g,b].map(n=>n.toString(16).padStart(2,'0')).join('');}
+  static hexToRgb(hex){const c=hex.replace(/^#/,'');const full=c.length===3?c.split('').map(x=>x+x).join(''):c;if(!/^[0-9a-fA-F]{6}$/.test(full))return null;return{r:parseInt(full.slice(0,2),16),g:parseInt(full.slice(2,4),16),b:parseInt(full.slice(4,6),16)};}
+  static rgbToCmyk(r,g,b){const[rn,gn,bn]=[r/255,g/255,b/255];const k=1-Math.max(rn,gn,bn);if(k>=1)return{c:0,m:0,y:0,k:100};const d=1-k;return{c:Math.round(((1-rn-k)/d)*100),m:Math.round(((1-gn-k)/d)*100),y:Math.round(((1-bn-k)/d)*100),k:Math.round(k*100)};}
+  static cmykToRgb(c,m,y,k){const d=1-k/100;return{r:Math.round(255*(1-c/100)*d),g:Math.round(255*(1-m/100)*d),b:Math.round(255*(1-y/100)*d)};}
+  static rgbToHsl(r,g,b){const[rn,gn,bn]=[r/255,g/255,b/255];const max=Math.max(rn,gn,bn),min=Math.min(rn,gn,bn),l=(max+min)/2;if(max===min)return{h:0,s:0,l:Math.round(l*100)};const d=max-min,s=l>.5?d/(2-max-min):d/(max+min);let h;switch(max){case rn:h=((gn-bn)/d+(gn<bn?6:0))/6;break;case gn:h=((bn-rn)/d+2)/6;break;default:h=((rn-gn)/d+4)/6;}return{h:Math.round(h*360),s:Math.round(s*100),l:Math.round(l*100)};}
+  static hslToRgb(h,s,l){const sn=s/100,ln=l/100;const c=(1-Math.abs(2*ln-1))*sn,x=c*(1-Math.abs((h/60)%2-1)),m=ln-c/2;let r=0,g=0,b=0;if(h<60){r=c;g=x;}else if(h<120){r=x;g=c;}else if(h<180){g=c;b=x;}else if(h<240){g=x;b=c;}else if(h<300){r=x;b=c;}else{r=c;b=x;}return{r:Math.round((r+m)*255),g:Math.round((g+m)*255),b:Math.round((b+m)*255)};}
+  static parseNumbers(str){const n=str.match(/[\d.]+/g);return n?n.map(Number):[];}
 }
 
-/* ==============================================================
-   Store — Manajemen state terpusat + persistensi localStorage
-   Semua data disimpan dan dimuat dari localStorage sehingga
-   palet & riwayat tidak hilang saat halaman di-refresh.
-   ============================================================== */
+/* ---- Store ---- */
 class Store {
-  constructor() {
-    this.palette = this._load('palette', []);
-    this.history = this._load('history', []);
-  }
-  _load(key, fallback) {
-    try { return JSON.parse(localStorage.getItem('cppro_'+key)) || fallback; }
-    catch { return fallback; }
-  }
-  _save(key, data) {
-    try { localStorage.setItem('cppro_'+key, JSON.stringify(data)); } catch{}
-  }
-
-  /* Tambahkan warna ke palet (cek duplikat) */
-  addToPalette(hex) {
-    if(this.palette.find(c=>c.hex===hex)) return false;
-    this.palette.unshift({ hex, id: Date.now() });
-    this._save('palette', this.palette);
-    return true;
-  }
-  removeFromPalette(id) {
-    this.palette = this.palette.filter(c=>c.id!==id);
-    this._save('palette', this.palette);
-  }
-  clearPalette() { this.palette=[]; this._save('palette',[]); }
-
-  /* Tambahkan ke riwayat (maks 50 entri, cegah duplikat berurutan) */
-  addToHistory(hex) {
-    if(this.history[0]?.hex===hex) return;
-    const { r,g,b }=ColorConverter.hexToRgb(hex)||{r:0,g:0,b:0};
-    const ts=new Date();
-    this.history.unshift({
-      hex, id:Date.now(),
-      rgb:`${r}, ${g}, ${b}`,
-      time: ts.toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'})
-    });
-    if(this.history.length>50) this.history.pop();
-    this._save('history', this.history);
-  }
-  clearHistory() { this.history=[]; this._save('history',[]); }
+  constructor(){this.palette=this._load('palette',[]);this.history=this._load('history',[]);this.settings=this._load('settings',{theme:'dark',accent:'#4287f5',fontFamily:"'DM Sans', sans-serif",fontSize:15,autoHistory:true,haptic:true,systemTheme:false});}
+  _load(k,fb){try{return JSON.parse(localStorage.getItem('cppro_'+k))||fb;}catch{return fb;}}
+  _save(k,d){try{localStorage.setItem('cppro_'+k,JSON.stringify(d));}catch{}}
+  addToPalette(hex){if(this.palette.find(c=>c.hex===hex))return false;this.palette.unshift({hex,id:Date.now()});this._save('palette',this.palette);return true;}
+  removeFromPalette(id){this.palette=this.palette.filter(c=>c.id!==id);this._save('palette',this.palette);}
+  clearPalette(){this.palette=[];this._save('palette',[]);}
+  addToHistory(hex){if(this.history[0]?.hex===hex)return;const{r,g,b}=ColorConverter.hexToRgb(hex)||{r:0,g:0,b:0};const ts=new Date();this.history.unshift({hex,id:Date.now(),rgb:`${r}, ${g}, ${b}`,time:ts.toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'})});if(this.history.length>50)this.history.pop();this._save('history',this.history);}
+  clearHistory(){this.history=[];this._save('history',[]);}
+  saveSetting(key,val){this.settings[key]=val;this._save('settings',this.settings);}
+  clearAll(){this.palette=[];this.history=[];this._save('palette',[]);this._save('history',[]);}
 }
 
-/* ==============================================================
-   Router — SPA Page Navigation + Animasi Transisi
-   Konsep:
-   - Setiap halaman adalah div.page dengan data-page attribute
-   - Halaman aktif mendapat class "active"
-   - Halaman yang keluar mendapat class "exit-left" dulu,
-     kemudian class tersebut dihapus setelah transisi selesai
-   - Ini menciptakan efek geser yang halus tanpa library
-   ============================================================== */
+/* ---- Router — diperluas untuk mendukung halaman dari-drawer ---- */
 class Router {
-  constructor(onNavigate) {
-    this.current    = 'picker';
-    this.pages      = document.querySelectorAll('.page');
-    this.onNavigate = onNavigate; // callback untuk update judul, dll.
-    this.titles = {
-      picker:   'Pemilih Warna',
-      palette:  'Palet Tersimpan',
-      history:  'Riwayat',
-      gradient: 'Gradient Maker'
-    };
+  constructor(onNavigate){
+    this.current='picker';
+    this.drawerOnlyPages = new Set(['settings','about']); /* hanya dari drawer */
+    this.onNavigate=onNavigate;
+    this.titles={picker:'Pemilih Warna',palette:'Palet Tersimpan',history:'Riwayat',gradient:'Gradient Maker',settings:'Pengaturan',about:'Tentang Aplikasi'};
   }
 
-  go(targetPage) {
-    if(targetPage === this.current) return;
-    const prev = this.current;
-    this.current = targetPage;
+  go(targetPage, fromDrawer=false){
+    if(targetPage===this.current)return;
+    const prev=this.current;
+    this.current=targetPage;
+    const prevEl  =document.querySelector(`.page[data-page="${prev}"]`);
+    const targetEl=document.querySelector(`.page[data-page="${targetPage}"]`);
 
-    const prevEl   = document.querySelector(`.page[data-page="${prev}"]`);
-    const targetEl = document.querySelector(`.page[data-page="${targetPage}"]`);
+    /* Halaman settings/about pakai transisi dari bawah (berbeda dari halaman biasa) */
+    const slideUp = fromDrawer || this.drawerOnlyPages.has(targetPage);
+    const slideDown= this.drawerOnlyPages.has(prev);
 
-    /* Langkah 1: Tandai halaman lama sebagai "keluar ke kiri" */
     prevEl.classList.remove('active');
-    prevEl.classList.add('exit-left');
+    if(slideDown){
+      prevEl.classList.add('exit-drawer');
+    } else {
+      prevEl.classList.add('exit-left');
+    }
 
-    /*
-      Langkah 2: Halaman baru masuk dari kanan.
-      Kita set transform awalnya ke kanan dulu (via CSS default .page),
-      lalu langsung tambahkan class active agar CSS transition berjalan.
-      requestAnimationFrame memastikan browser sudah merender state awal
-      sebelum class active ditambahkan, sehingga transisi bisa terlihat.
-    */
-    targetEl.style.transform = 'translateX(40px)';
-    targetEl.style.opacity   = '0';
-    targetEl.style.pointerEvents = 'none';
-    /* Force reflow agar perubahan style di atas diterapkan sebelum transisi */
-    void targetEl.offsetWidth;
-    targetEl.style.transform = '';
-    targetEl.style.opacity   = '';
+    if(slideUp){
+      targetEl.style.transform='translateY(30px)';
+    } else {
+      targetEl.style.transform='translateX(40px)';
+    }
+    targetEl.style.opacity='0';
+    void targetEl.offsetWidth; /* force reflow */
+    targetEl.style.transform='';
+    targetEl.style.opacity='';
     targetEl.classList.add('active');
-    targetEl.style.pointerEvents = '';
 
-    /* Langkah 3: Bersihkan class exit-left setelah transisi selesai */
-    prevEl.addEventListener('transitionend', () => {
-      prevEl.classList.remove('exit-left');
-    }, { once: true });
+    prevEl.addEventListener('transitionend',()=>{
+      prevEl.classList.remove('exit-left','exit-drawer');
+    },{once:true});
 
-    /* Update UI pendukung: judul appbar, nav bar, drawer */
-    document.getElementById('appbar-title').textContent = this.titles[targetPage];
-    this._updateNav(targetPage);
-    this._updateDrawer(targetPage);
+    document.getElementById('appbar-title').textContent=this.titles[targetPage];
+
+    /* Bottom nav: Settings & About tidak ada di nav bar */
+    document.querySelectorAll('.nav-item').forEach(item=>{
+      item.classList.toggle('active',item.dataset.nav===targetPage);
+    });
+    document.querySelectorAll('.drawer-item[data-route]').forEach(item=>{
+      item.classList.toggle('active',item.dataset.route===targetPage);
+    });
     this.onNavigate(targetPage);
   }
-
-  _updateNav(page) {
-    document.querySelectorAll('.nav-item').forEach(item => {
-      item.classList.toggle('active', item.dataset.nav === page);
-    });
-  }
-  _updateDrawer(page) {
-    document.querySelectorAll('.drawer-item[data-route]').forEach(item => {
-      item.classList.toggle('active', item.dataset.route === page);
-    });
-  }
 }
 
-/* ==============================================================
-   DrawerController
-   ============================================================== */
+/* ---- DrawerController — dengan swipe real-time & tanpa shadow ---- */
 class DrawerController {
-  constructor(drawerEl, overlayEl, menuBtnEl) {
+  constructor(drawerEl, overlayEl, menuBtnEl){
     this.drawer=drawerEl; this.overlay=overlayEl; this.isOpen=false;
-    menuBtnEl.addEventListener('click', ()=>this.toggle());
-    overlayEl.addEventListener('click', ()=>this.close());
-    let sx=0;
-    this.drawer.addEventListener('touchstart',e=>{sx=e.touches[0].clientX;},{passive:true});
-    this.drawer.addEventListener('touchend',e=>{if(e.changedTouches[0].clientX-sx<-50)this.close();},{passive:true});
+    this.drawerW=288; /* lebar drawer dalam piksel */
+    menuBtnEl.addEventListener('click',()=>this.toggle());
+    overlayEl.addEventListener('click',()=>this.close());
+    this._bindSwipe();
   }
-  open()  { this.isOpen=true;  this.drawer.classList.add('open');    this.overlay.classList.add('visible');    document.body.style.overflow='hidden'; }
-  close() { this.isOpen=false; this.drawer.classList.remove('open'); this.overlay.classList.remove('visible'); document.body.style.overflow=''; }
+
+  /*
+    Swipe gesture yang disempurnakan:
+    Berbeda dari versi sebelumnya (hanya cek touchend),
+    kini kita track posisi jari secara real-time selama touchmove
+    sehingga drawer mengikuti jari sebelum dilepas — persis seperti
+    aplikasi native Android.
+  */
+  _bindSwipe(){
+    let startX=0, startY=0, currentX=0, isSwiping=false, didScroll=false;
+    const DRAG_THRESHOLD = 10; /* pixel sebelum dianggap drag */
+
+    /* Swipe dari kiri tepi layar untuk membuka */
+    document.addEventListener('touchstart',e=>{
+      startX=e.touches[0].clientX;
+      startY=e.touches[0].clientY;
+      currentX=startX; isSwiping=false; didScroll=false;
+    },{passive:true});
+
+    document.addEventListener('touchmove',e=>{
+      if(didScroll) return;
+      currentX=e.touches[0].clientX;
+      const dx=currentX-startX;
+      const dy=Math.abs(e.touches[0].clientY-startY);
+
+      /* Kalau lebih banyak scroll vertikal, batalkan swipe */
+      if(!isSwiping && dy>Math.abs(dx)+5){ didScroll=true; return; }
+
+      /* Buka: hanya jika mulai dari tepi kiri (<40px) dan geser ke kanan */
+      if(!this.isOpen && startX<40 && dx>DRAG_THRESHOLD){
+        isSwiping=true;
+        const progress=Math.min(1,dx/this.drawerW);
+        /* Gerakkan drawer secara real-time */
+        this.drawer.style.transition='none';
+        this.drawer.style.transform=`translateX(${-this.drawerW + dx}px)`;
+        this.overlay.style.opacity=progress*0.52;
+        this.overlay.style.pointerEvents='all';
+      }
+      /* Tutup: jika drawer terbuka dan geser ke kiri */
+      if(this.isOpen && dx<-DRAG_THRESHOLD){
+        isSwiping=true;
+        const offset=Math.max(0,-dx);
+        const progress=Math.min(1,offset/this.drawerW);
+        this.drawer.style.transition='none';
+        this.drawer.style.transform=`translateX(${-offset}px)`;
+        this.overlay.style.opacity=(1-progress)*0.52;
+      }
+    },{passive:true});
+
+    document.addEventListener('touchend',e=>{
+      if(!isSwiping){ return; }
+      const dx=e.changedTouches[0].clientX-startX;
+      /* Kembalikan transisi CSS */
+      this.drawer.style.transition='';
+      this.overlay.style.transition='';
+
+      if(!this.isOpen){
+        /* Jika sudah lebih dari 40% terbuka, selesaikan buka */
+        if(dx>this.drawerW*0.4){ this.open(); }
+        else { /* Kembalikan ke tertutup */
+          this.drawer.style.transform='';
+          this.overlay.style.opacity='';
+          this.overlay.style.pointerEvents='';
+        }
+      } else {
+        /* Jika sudah lebih dari 30% tertutup, selesaikan tutup */
+        if(-dx>this.drawerW*0.3){ this.close(); }
+        else { /* Kembalikan ke terbuka */
+          this.drawer.style.transform='';
+        }
+      }
+      isSwiping=false;
+    },{passive:true});
+  }
+
+  open(){ this.isOpen=true; this.drawer.style.transform=''; this.drawer.classList.add('open'); this.overlay.classList.add('visible'); this.overlay.style.opacity=''; document.body.style.overflow='hidden'; }
+  close(){ this.isOpen=false; this.drawer.style.transform=''; this.drawer.classList.remove('open'); this.overlay.classList.remove('visible'); this.overlay.style.opacity=''; this.overlay.style.pointerEvents=''; document.body.style.overflow=''; }
   toggle(){ this.isOpen?this.close():this.open(); }
 }
 
-/* ==============================================================
-   PickerCanvas
-   ============================================================== */
-class PickerCanvas {
-  constructor(canvas, thumb, onChange) {
-    this.canvas=canvas; this.thumb=thumb; this.onChange=onChange;
-    this.hue=217; this.sat=0.73; this.bri=0.96; this.dragging=false;
-    requestAnimationFrame(()=>{this._resize();this.render();this._place();});
-    window.addEventListener('resize',()=>{this._resize();this.render();this._place();});
-    this._bind();
-  }
-  _resize(){const e=this.canvas.parentElement;this.canvas.width=e.clientWidth;this.canvas.height=e.clientHeight;}
-  render(){
-    const ctx=this.canvas.getContext('2d'),{width:w,height:h}=this.canvas;
-    const gh=ctx.createLinearGradient(0,0,w,0);
-    gh.addColorStop(0,`hsl(${this.hue},0%,100%)`);
-    gh.addColorStop(1,`hsl(${this.hue},100%,50%)`);
-    ctx.fillStyle=gh;ctx.fillRect(0,0,w,h);
-    const gv=ctx.createLinearGradient(0,0,0,h);
-    gv.addColorStop(0,'rgba(0,0,0,0)');gv.addColorStop(1,'rgba(0,0,0,1)');
-    ctx.fillStyle=gv;ctx.fillRect(0,0,w,h);
-  }
-  _place(){
-    const w=this.canvas.clientWidth||this.canvas.width;
-    const h=this.canvas.clientHeight||this.canvas.height;
-    this.thumb.style.left=(this.sat*w)+'px';
-    this.thumb.style.top=((1-this.bri)*h)+'px';
-  }
-  _pick(cx,cy){
-    const r=this.canvas.getBoundingClientRect();
-    const x=Math.max(0,Math.min(cx-r.left,r.width));
-    const y=Math.max(0,Math.min(cy-r.top,r.height));
-    this.sat=x/r.width; this.bri=1-(y/r.height);
-    this._place(); this.onChange(this.sat,this.bri);
-  }
-  _bind(){
-    const w=this.canvas.parentElement;
-    w.addEventListener('mousedown',e=>{this.dragging=true;this.thumb.classList.add('dragging');this._pick(e.clientX,e.clientY);});
-    w.addEventListener('touchstart',e=>{e.preventDefault();this.dragging=true;this.thumb.classList.add('dragging');const t=e.touches[0];this._pick(t.clientX,t.clientY);},{passive:false});
-    document.addEventListener('mousemove',e=>{if(this.dragging)this._pick(e.clientX,e.clientY);});
-    document.addEventListener('touchmove',e=>{if(this.dragging){e.preventDefault();const t=e.touches[0];this._pick(t.clientX,t.clientY);}},{passive:false});
-    document.addEventListener('mouseup',()=>{this.dragging=false;this.thumb.classList.remove('dragging');});
-    document.addEventListener('touchend',()=>{this.dragging=false;this.thumb.classList.remove('dragging');});
-  }
-  setHue(h){this.hue=h;this.render();}
-  setSatBri(s,v){this.sat=Math.max(0,Math.min(1,s));this.bri=Math.max(0,Math.min(1,v));this._place();}
+/* ---- PickerCanvas & HueSlider (tidak berubah) ---- */
+class PickerCanvas{constructor(canvas,thumb,onChange){this.canvas=canvas;this.thumb=thumb;this.onChange=onChange;this.hue=217;this.sat=0.73;this.bri=0.96;this.dragging=false;requestAnimationFrame(()=>{this._resize();this.render();this._place();});window.addEventListener('resize',()=>{this._resize();this.render();this._place();});this._bind();}
+_resize(){const e=this.canvas.parentElement;this.canvas.width=e.clientWidth;this.canvas.height=e.clientHeight;}
+render(){const ctx=this.canvas.getContext('2d'),{width:w,height:h}=this.canvas;const gh=ctx.createLinearGradient(0,0,w,0);gh.addColorStop(0,`hsl(${this.hue},0%,100%)`);gh.addColorStop(1,`hsl(${this.hue},100%,50%)`);ctx.fillStyle=gh;ctx.fillRect(0,0,w,h);const gv=ctx.createLinearGradient(0,0,0,h);gv.addColorStop(0,'rgba(0,0,0,0)');gv.addColorStop(1,'rgba(0,0,0,1)');ctx.fillStyle=gv;ctx.fillRect(0,0,w,h);}
+_place(){const w=this.canvas.clientWidth||this.canvas.width;const h=this.canvas.clientHeight||this.canvas.height;this.thumb.style.left=(this.sat*w)+'px';this.thumb.style.top=((1-this.bri)*h)+'px';}
+_pick(cx,cy){const r=this.canvas.getBoundingClientRect();const x=Math.max(0,Math.min(cx-r.left,r.width));const y=Math.max(0,Math.min(cy-r.top,r.height));this.sat=x/r.width;this.bri=1-(y/r.height);this._place();this.onChange(this.sat,this.bri);}
+_bind(){const w=this.canvas.parentElement;w.addEventListener('mousedown',e=>{this.dragging=true;this.thumb.classList.add('dragging');this._pick(e.clientX,e.clientY);});w.addEventListener('touchstart',e=>{e.preventDefault();this.dragging=true;this.thumb.classList.add('dragging');const t=e.touches[0];this._pick(t.clientX,t.clientY);},{passive:false});document.addEventListener('mousemove',e=>{if(this.dragging)this._pick(e.clientX,e.clientY);});document.addEventListener('touchmove',e=>{if(this.dragging){e.preventDefault();const t=e.touches[0];this._pick(t.clientX,t.clientY);}},{passive:false});document.addEventListener('mouseup',()=>{this.dragging=false;this.thumb.classList.remove('dragging');});document.addEventListener('touchend',()=>{this.dragging=false;this.thumb.classList.remove('dragging');});}
+setHue(h){this.hue=h;this.render();}setSatBri(s,v){this.sat=Math.max(0,Math.min(1,s));this.bri=Math.max(0,Math.min(1,v));this._place();}}
+
+class HueSlider{constructor(track,thumb,onChange){this.track=track;this.thumb=thumb;this.onChange=onChange;this.hue=217;this.dragging=false;requestAnimationFrame(()=>this._place(this.hue));window.addEventListener('resize',()=>this._place(this.hue));this._bind();}
+_place(hue){const w=this.track.clientWidth,hw=this.thumb.offsetWidth/2||14;const x=(hue/360)*w;this.thumb.style.left=Math.max(hw,Math.min(w-hw,x))+'px';this.thumb.style.background=`hsl(${hue},100%,50%)`;}
+_pick(cx){const r=this.track.getBoundingClientRect();const x=Math.max(0,Math.min(cx-r.left,r.width));this.hue=Math.round((x/r.width)*360);this._place(this.hue);this.onChange(this.hue);}
+_bind(){this.track.addEventListener('mousedown',e=>{this.dragging=true;this.thumb.classList.add('dragging');this._pick(e.clientX);});this.track.addEventListener('touchstart',e=>{e.preventDefault();this.dragging=true;this.thumb.classList.add('dragging');this._pick(e.touches[0].clientX);},{passive:false});document.addEventListener('mousemove',e=>{if(this.dragging)this._pick(e.clientX);});document.addEventListener('touchmove',e=>{if(this.dragging){e.preventDefault();this._pick(e.touches[0].clientX);}},{passive:false});document.addEventListener('mouseup',()=>{this.dragging=false;this.thumb.classList.remove('dragging');});document.addEventListener('touchend',()=>{this.dragging=false;this.thumb.classList.remove('dragging');});}
+setHue(h){this.hue=h;this._place(h);}}
+
+/* ---- GradientMaker (tidak berubah) ---- */
+class GradientMaker{constructor(onToast){this.onToast=onToast;this.type='linear';this.angle=135;this.stops=[{hex:'#667eea',pct:0},{hex:'#764ba2',pct:100}];this.populars=[{name:'Mystic Purple',desc:'Ungu elegan & mistis',stops:['#667eea','#764ba2'],angle:135},{name:'Sunset Blaze',desc:'Hangat seperti senja',stops:['#f093fb','#f5576c'],angle:135},{name:'Ocean Breeze',desc:'Segar biru samudra',stops:['#4facfe','#00f2fe'],angle:135},{name:'Lime Punch',desc:'Hijau neon yang segar',stops:['#43e97b','#38f9d7'],angle:135},{name:'Cosmic Dust',desc:'Angkasa gelap berkilau',stops:['#0c3483','#a2b6df','#6b8cce'],angle:135},{name:'Flamingo',desc:'Merah muda menawan',stops:['#f77062','#fe5196'],angle:135},{name:'Midnight City',desc:'Gelap modern perkotaan',stops:['#232526','#414345'],angle:135},{name:'Gold Rush',desc:'Kemewahan emas murni',stops:['#f7971e','#ffd200'],angle:135},{name:'Deep Space',desc:'Biru tua tak terbatas',stops:['#000428','#004e92'],angle:135},{name:'Cherry Blossom',desc:'Merah ceri yang lembut',stops:['#ffecd2','#fcb69f'],angle:135},{name:'Neon Jungle',desc:'Hijau tropis terang',stops:['#00b09b','#96c93d'],angle:135},{name:'Aurora Borealis',desc:'Cahaya utara yang ajaib',stops:['#00c6ff','#0072ff','#6a11cb'],angle:135},{name:'Lava Flow',desc:'Magma merah membara',stops:['#f12711','#f5af19'],angle:135},{name:'Morning Mist',desc:'Pagi hari yang tenang',stops:['#e0eafc','#cfdef3'],angle:135},{name:'Dusk Horizon',desc:'Senja ungu-oranye',stops:['#fc5c7d','#6a3093'],angle:135},{name:'Mint Fresh',desc:'Mint sejuk menyegarkan',stops:['#00b4db','#0083b0'],angle:135}];this._render();this._renderPopular();this._bindEvents();this._updatePreview();}
+_render(){const c=document.getElementById('gradient-stops');c.innerHTML='';this.stops.forEach((stop,idx)=>{const row=document.createElement('div');row.className='stop-row';row.innerHTML=`<div class="stop-swatch" style="background:${stop.hex}" data-idx="${idx}"></div><input class="stop-hex-input" type="text" value="${stop.hex}" data-idx="${idx}" maxlength="7" spellcheck="false"/><span class="stop-percent">${stop.pct}%</span>${this.stops.length>2?`<button class="stop-remove" data-idx="${idx}"><i data-lucide="x" width="14" height="14"></i></button>`:'<div style="width:32px"></div>'}`;c.appendChild(row);});lucide.createIcons({attrs:{'stroke-width':2}});this._bindStopEvents();}
+_renderPopular(){const grid=document.getElementById('popular-grid');grid.innerHTML='';this.populars.forEach((g,idx)=>{const stops=g.stops.map((c,i)=>`${c} ${Math.round(i/(g.stops.length-1)*100)}%`).join(', ');const css=`linear-gradient(${g.angle}deg, ${stops})`;const item=document.createElement('div');item.className='popular-item';item.innerHTML=`<div class="popular-swatch" style="background:${css}"></div><div class="popular-info"><div class="popular-name">${g.name}</div><div class="popular-desc">${g.desc}</div></div>`;item.addEventListener('click',()=>this._applyPopular(idx));grid.appendChild(item);});}
+_applyPopular(idx){const g=this.populars[idx];this.stops=g.stops.map((hex,i)=>({hex,pct:Math.round(i/(g.stops.length-1)*100)}));this.type='linear';this.angle=g.angle;document.querySelectorAll('.type-btn').forEach(b=>b.classList.toggle('active',b.dataset.type==='linear'));document.querySelectorAll('.dir-btn').forEach(b=>b.classList.toggle('active',parseInt(b.dataset.angle)===g.angle));document.getElementById('direction-section').style.display='';this._render();this._updatePreview();this.onToast(`"${g.name}" diterapkan!`);}
+_bindStopEvents(){document.querySelectorAll('.stop-hex-input').forEach(input=>{input.addEventListener('input',()=>{const idx=parseInt(input.dataset.idx);const hex=input.value.trim();if(ColorConverter.hexToRgb(hex)){this.stops[idx].hex=hex;input.parentElement.querySelector('.stop-swatch').style.background=hex;this._updatePreview();}});input.style.webkitUserSelect='text';input.style.userSelect='text';});document.querySelectorAll('.stop-remove').forEach(btn=>{btn.addEventListener('click',()=>{const idx=parseInt(btn.dataset.idx);this.stops.splice(idx,1);this._recalcPercents();this._render();this._updatePreview();});});}
+_bindEvents(){document.getElementById('add-stop-btn').addEventListener('click',()=>{if(this.stops.length>=6){this.onToast('Maksimal 6 stop warna');return;}const last=this.stops[this.stops.length-1];this.stops.push({hex:last.hex,pct:100});this._recalcPercents();this._render();this._updatePreview();});document.querySelectorAll('.type-btn').forEach(btn=>{btn.addEventListener('click',()=>{this.type=btn.dataset.type;document.querySelectorAll('.type-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');document.getElementById('direction-section').style.display=this.type==='linear'?'':'none';this._updatePreview();});});document.querySelectorAll('.dir-btn').forEach(btn=>{btn.addEventListener('click',()=>{this.angle=parseInt(btn.dataset.angle);document.querySelectorAll('.dir-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');this._updatePreview();});});document.getElementById('copy-css-btn').addEventListener('click',()=>this._copyCss());document.getElementById('copy-gradient-btn').addEventListener('click',()=>this._copyCss());document.getElementById('save-gradient-btn').addEventListener('click',()=>{this.onToast('CSS gradient disalin!');this._copyCss();});}
+_recalcPercents(){this.stops.forEach((s,i)=>{s.pct=Math.round(i/(this.stops.length-1)*100);});}
+buildCss(){const ss=this.stops.map(s=>`${s.hex} ${s.pct}%`).join(', ');switch(this.type){case'radial':return`radial-gradient(circle, ${ss})`;case'conic':return`conic-gradient(from ${this.angle}deg, ${ss})`;default:return`linear-gradient(${this.angle}deg, ${ss})`;}}
+_updatePreview(){const css=this.buildCss();document.getElementById('gradient-preview').style.background=css;document.getElementById('css-code').textContent=`background: ${css};`;document.getElementById('gradient-type-badge').textContent=this.type==='linear'?`Linear · ${this.angle}°`:this.type==='radial'?'Radial · Circle':`Conic · ${this.angle}°`;}
+async _copyCss(){const css=`background: ${this.buildCss()};`;try{await navigator.clipboard.writeText(css);}catch{const t=Object.assign(document.createElement('textarea'),{value:css});document.body.appendChild(t);t.select();document.execCommand('copy');t.remove();}this.onToast('CSS gradient disalin!');}
 }
 
-/* ==============================================================
-   HueSlider
-   ============================================================== */
-class HueSlider {
-  constructor(track, thumb, onChange) {
-    this.track=track; this.thumb=thumb; this.onChange=onChange;
-    this.hue=217; this.dragging=false;
-    requestAnimationFrame(()=>this._place(this.hue));
-    window.addEventListener('resize',()=>this._place(this.hue));
-    this._bind();
-  }
-  _place(hue){
-    const w=this.track.clientWidth,hw=this.thumb.offsetWidth/2||14;
-    const x=(hue/360)*w;
-    this.thumb.style.left=Math.max(hw,Math.min(w-hw,x))+'px';
-    this.thumb.style.background=`hsl(${hue},100%,50%)`;
-  }
-  _pick(cx){
-    const r=this.track.getBoundingClientRect();
-    const x=Math.max(0,Math.min(cx-r.left,r.width));
-    this.hue=Math.round((x/r.width)*360);
-    this._place(this.hue); this.onChange(this.hue);
-  }
-  _bind(){
-    this.track.addEventListener('mousedown',e=>{this.dragging=true;this.thumb.classList.add('dragging');this._pick(e.clientX);});
-    this.track.addEventListener('touchstart',e=>{e.preventDefault();this.dragging=true;this.thumb.classList.add('dragging');this._pick(e.touches[0].clientX);},{passive:false});
-    document.addEventListener('mousemove',e=>{if(this.dragging)this._pick(e.clientX);});
-    document.addEventListener('touchmove',e=>{if(this.dragging){e.preventDefault();this._pick(e.touches[0].clientX);}},{passive:false});
-    document.addEventListener('mouseup',()=>{this.dragging=false;this.thumb.classList.remove('dragging');});
-    document.addEventListener('touchend',()=>{this.dragging=false;this.thumb.classList.remove('dragging');});
-  }
-  setHue(h){this.hue=h;this._place(h);}
-}
-
-/* ==============================================================
-   GradientMaker — Logika Halaman Gradient
-   ============================================================== */
-class GradientMaker {
-  constructor(onToast) {
+/* ---- SettingsManager — mengelola halaman Settings ---- */
+class SettingsManager {
+  constructor(store, onToast) {
+    this.store   = store;
     this.onToast = onToast;
-    this.type    = 'linear';
-    this.angle   = 135;
-    this.stops   = [
-      { hex: '#667eea', pct: 0 },
-      { hex: '#764ba2', pct: 100 }
+
+    /* Definisi tema: nama, kode warna latar, warna untuk lingkaran swatch */
+    this.themes = [
+      { id:'dark',     name:'Gelap',    bg:'#1c1c1e', accent:'#4287f5' },
+      { id:'light',    name:'Terang',   bg:'#f2f2f7', accent:'#007aff' },
+      { id:'midnight', name:'Midnight', bg:'#0a0e1a', accent:'#63b3ed' },
+      { id:'forest',   name:'Forest',   bg:'#0d1f0d', accent:'#4ade80' },
+      { id:'rose',     name:'Rose',     bg:'#1a0a12', accent:'#f472b6' },
     ];
 
-    /* Koleksi 16 gradien populer dengan nama dan deskripsi */
-    this.populars = [
-      { name:'Mystic Purple',  desc:'Ungu elegan & mistis',   stops:['#667eea','#764ba2'], angle:135 },
-      { name:'Sunset Blaze',   desc:'Hangat seperti senja',   stops:['#f093fb','#f5576c'], angle:135 },
-      { name:'Ocean Breeze',   desc:'Segar biru samudra',     stops:['#4facfe','#00f2fe'], angle:135 },
-      { name:'Lime Punch',     desc:'Hijau neon yang segar',  stops:['#43e97b','#38f9d7'], angle:135 },
-      { name:'Cosmic Dust',    desc:'Angkasa gelap berkilau', stops:['#0c3483','#a2b6df','#6b8cce'], angle:135 },
-      { name:'Flamingo',       desc:'Merah muda menawan',     stops:['#f77062','#fe5196'], angle:135 },
-      { name:'Midnight City',  desc:'Gelap modern perkotaan', stops:['#232526','#414345'], angle:135 },
-      { name:'Gold Rush',      desc:'Kemewahan emas murni',   stops:['#f7971e','#ffd200'], angle:135 },
-      { name:'Deep Space',     desc:'Biru tua tak terbatas',  stops:['#000428','#004e92'], angle:135 },
-      { name:'Cherry Blossom', desc:'Merah ceri yang lembut', stops:['#ffecd2','#fcb69f'], angle:135 },
-      { name:'Neon Jungle',    desc:'Hijau tropis terang',    stops:['#00b09b','#96c93d'], angle:135 },
-      { name:'Aurora Borealis',desc:'Cahaya utara yang ajaib',stops:['#00c6ff','#0072ff','#6a11cb'], angle:135 },
-      { name:'Lava Flow',      desc:'Magma merah membara',    stops:['#f12711','#f5af19'], angle:135 },
-      { name:'Morning Mist',   desc:'Pagi hari yang tenang',  stops:['#e0eafc','#cfdef3'], angle:135 },
-      { name:'Dusk Horizon',   desc:'Senja ungu-oranye',      stops:['#fc5c7d','#6a3093'], angle:135 },
-      { name:'Mint Fresh',     desc:'Mint sejuk menyegarkan', stops:['#00b4db','#0083b0'], angle:135 },
+    /* Pilihan warna aksen */
+    this.accents = [
+      { color:'#4287f5', name:'Biru'   },
+      { color:'#34c759', name:'Hijau'  },
+      { color:'#ff9500', name:'Oranye' },
+      { color:'#ff2d55', name:'Merah'  },
+      { color:'#af52de', name:'Ungu'   },
+      { color:'#00c7be', name:'Teal'   },
+      { color:'#ffd600', name:'Kuning' },
+      { color:'#ff6b6b', name:'Coral'  },
     ];
 
-    this._render();
-    this._renderPopular();
+    this._renderThemeGrid();
+    this._renderAccentRow();
+    this._applyStoredSettings();
     this._bindEvents();
-    this._updatePreview();
   }
 
-  /* Render daftar stop warna di UI */
-  _render() {
-    const container = document.getElementById('gradient-stops');
-    container.innerHTML = '';
-    this.stops.forEach((stop, idx) => {
-      const row = document.createElement('div');
-      row.className = 'stop-row';
-      row.innerHTML = `
-        <div class="stop-swatch" style="background:${stop.hex}" data-idx="${idx}"></div>
-        <input class="stop-hex-input" type="text" value="${stop.hex}" data-idx="${idx}" maxlength="7" spellcheck="false" />
-        <span class="stop-percent">${stop.pct}%</span>
-        ${this.stops.length > 2 ? `<button class="stop-remove" data-idx="${idx}"><i data-lucide="x" width="14" height="14"></i></button>` : '<div style="width:32px"></div>'}
-      `;
-      container.appendChild(row);
-    });
-    lucide.createIcons({ attrs: { 'stroke-width': 2 } });
-    this._bindStopEvents();
-  }
-
-  /* Render grid gradien populer */
-  _renderPopular() {
-    const grid = document.getElementById('popular-grid');
+  /* Render 5 lingkaran pilihan tema */
+  _renderThemeGrid() {
+    const grid    = document.getElementById('theme-grid');
+    const current = this.store.settings.theme;
     grid.innerHTML = '';
-    this.populars.forEach((g, idx) => {
-      const stops = g.stops.map((c,i)=>`${c} ${Math.round(i/(g.stops.length-1)*100)}%`).join(', ');
-      const css = `linear-gradient(${g.angle}deg, ${stops})`;
-      const item = document.createElement('div');
-      item.className = 'popular-item';
-      item.innerHTML = `
-        <div class="popular-swatch" style="background:${css}"></div>
-        <div class="popular-info">
-          <div class="popular-name">${g.name}</div>
-          <div class="popular-desc">${g.desc}</div>
-        </div>
+    this.themes.forEach(t => {
+      const el = document.createElement('div');
+      el.className = `theme-swatch${t.id===current?' active':''}`;
+      el.dataset.theme = t.id;
+      el.innerHTML = `
+        <div class="theme-circle" style="background:${t.bg};border-color:${t.id===current?t.accent:'transparent'}"></div>
+        <span class="theme-name">${t.name}</span>
       `;
-      item.addEventListener('click', () => this._applyPopular(idx));
-      grid.appendChild(item);
+      el.addEventListener('click', () => this._applyTheme(t.id));
+      grid.appendChild(el);
     });
   }
 
-  /* Terapkan gradien populer yang dipilih ke editor */
-  _applyPopular(idx) {
-    const g = this.populars[idx];
-    this.stops = g.stops.map((hex, i) => ({
-      hex, pct: Math.round(i / (g.stops.length - 1) * 100)
-    }));
-    this.type  = 'linear';
-    this.angle = g.angle;
-    /* Sinkronkan tombol tipe & arah */
-    document.querySelectorAll('.type-btn').forEach(b => b.classList.toggle('active', b.dataset.type==='linear'));
-    document.querySelectorAll('.dir-btn').forEach(b => b.classList.toggle('active', parseInt(b.dataset.angle)===g.angle));
-    document.getElementById('direction-section').style.display = '';
-    this._render();
-    this._updatePreview();
-    this.onToast(`"${g.name}" diterapkan!`);
+  /* Render baris titik-titik warna aksen */
+  _renderAccentRow() {
+    const row     = document.getElementById('accent-row');
+    const current = this.store.settings.accent;
+    row.innerHTML = '';
+    this.accents.forEach(a => {
+      const dot = document.createElement('div');
+      dot.className = `accent-dot${a.color===current?' active':''}`;
+      dot.style.background = a.color;
+      dot.title = a.name;
+      dot.addEventListener('click', () => this._applyAccent(a.color));
+      row.appendChild(dot);
+    });
   }
 
-  _bindStopEvents() {
-    /* Input hex stop: perbarui swatch dan preview secara real-time */
-    document.querySelectorAll('.stop-hex-input').forEach(input => {
-      input.addEventListener('input', () => {
-        const idx = parseInt(input.dataset.idx);
-        const hex = input.value.trim();
-        if(ColorConverter.hexToRgb(hex)) {
-          this.stops[idx].hex = hex;
-          input.parentElement.querySelector('.stop-swatch').style.background = hex;
-          this._updatePreview();
-        }
-      });
-      input.style.webkitUserSelect = 'text';
-      input.style.userSelect       = 'text';
+  /* Terapkan tema ke atribut data-theme pada <html> */
+  _applyTheme(themeId) {
+    document.documentElement.dataset.theme = themeId;
+    this.store.saveSetting('theme', themeId);
+    /* Perbarui visual grid tema */
+    document.querySelectorAll('.theme-swatch').forEach(el => {
+      el.classList.toggle('active', el.dataset.theme === themeId);
+      const circle = el.querySelector('.theme-circle');
+      const t = this.themes.find(x => x.id === el.dataset.theme);
+      circle.style.borderColor = el.dataset.theme === themeId ? t.accent : 'transparent';
     });
+    this.onToast(`Tema "${this.themes.find(t=>t.id===themeId).name}" diterapkan`);
+  }
 
-    /* Tombol hapus stop */
-    document.querySelectorAll('.stop-remove').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const idx = parseInt(btn.dataset.idx);
-        this.stops.splice(idx, 1);
-        this._recalcPercents();
-        this._render();
-        this._updatePreview();
-      });
+  /* Terapkan warna aksen dengan menulis ulang variabel CSS */
+  _applyAccent(color) {
+    document.documentElement.style.setProperty('--accent', color);
+    /* Buat versi soft (transparan 15%) dari aksen */
+    const rgb = ColorConverter.hexToRgb(color);
+    if(rgb) {
+      document.documentElement.style.setProperty('--accent-soft', `rgba(${rgb.r},${rgb.g},${rgb.b},0.15)`);
+    }
+    this.store.saveSetting('accent', color);
+    /* Perbarui visual baris aksen */
+    document.querySelectorAll('.accent-dot').forEach(d => {
+      d.classList.toggle('active', d.style.background === color ||
+        d.style.backgroundColor === color);
     });
+    this._renderAccentRow();
+    this.onToast('Warna aksen diperbarui');
+  }
 
-    /* Klik swatch untuk beralih ke picker (future feature — toast info) */
-    document.querySelectorAll('.stop-swatch').forEach(sw => {
-      sw.addEventListener('click', () => {
-        this.onToast('Ketuk input di sebelahnya untuk mengedit HEX warna');
-      });
-    });
+  /* Terapkan semua settings yang tersimpan saat boot */
+  _applyStoredSettings() {
+    const s = this.store.settings;
+    /* Tema */
+    document.documentElement.dataset.theme = s.theme || 'dark';
+    /* Aksen */
+    if(s.accent) {
+      document.documentElement.style.setProperty('--accent', s.accent);
+      const rgb = ColorConverter.hexToRgb(s.accent);
+      if(rgb) document.documentElement.style.setProperty('--accent-soft', `rgba(${rgb.r},${rgb.g},${rgb.b},0.15)`);
+    }
+    /* Font family */
+    if(s.fontFamily) document.documentElement.style.setProperty('--font', s.fontFamily);
+    /* Font size */
+    const fs = s.fontSize || 15;
+    document.documentElement.style.setProperty('--font-size-base', fs+'px');
+    const slider = document.getElementById('font-size-slider');
+    if(slider) { slider.value = fs; document.getElementById('font-size-label').textContent = fs+'px'; }
+    /* Font select */
+    const sel = document.getElementById('font-family-select');
+    if(sel) sel.value = s.fontFamily || "'DM Sans', sans-serif";
+    /* Toggles */
+    const th = document.getElementById('toggle-history');
+    const hap = document.getElementById('toggle-haptic');
+    const sys = document.getElementById('toggle-system-theme');
+    if(th)  th.checked  = s.autoHistory !== false;
+    if(hap) hap.checked = s.haptic !== false;
+    if(sys) sys.checked = s.systemTheme === true;
   }
 
   _bindEvents() {
-    /* Tambah stop baru di tengah */
-    document.getElementById('add-stop-btn').addEventListener('click', () => {
-      if(this.stops.length >= 6) { this.onToast('Maksimal 6 stop warna'); return; }
-      /* Ambil warna campuran dari dua stop terakhir */
-      const last = this.stops[this.stops.length-1];
-      this.stops.push({ hex: last.hex, pct: 100 });
-      this._recalcPercents();
-      this._render();
-      this._updatePreview();
+    /* Font size slider */
+    const slider = document.getElementById('font-size-slider');
+    slider?.addEventListener('input', () => {
+      const v = parseInt(slider.value);
+      document.documentElement.style.setProperty('--font-size-base', v+'px');
+      document.getElementById('font-size-label').textContent = v+'px';
+      this.store.saveSetting('fontSize', v);
     });
 
-    /* Tombol tipe gradien */
-    document.querySelectorAll('.type-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        this.type = btn.dataset.type;
-        document.querySelectorAll('.type-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        /* Sembunyikan arah untuk radial/conic */
-        document.getElementById('direction-section').style.display =
-          this.type === 'linear' ? '' : 'none';
-        this._updatePreview();
-      });
+    /* Font family select */
+    const sel = document.getElementById('font-family-select');
+    sel?.addEventListener('change', () => {
+      document.documentElement.style.setProperty('--font', sel.value);
+      this.store.saveSetting('fontFamily', sel.value);
+      this.onToast('Font diperbarui');
     });
 
-    /* Tombol arah */
-    document.querySelectorAll('.dir-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        this.angle = parseInt(btn.dataset.angle);
-        document.querySelectorAll('.dir-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        this._updatePreview();
-      });
+    /* Toggles */
+    document.getElementById('toggle-history')?.addEventListener('change', e => {
+      this.store.saveSetting('autoHistory', e.target.checked);
+    });
+    document.getElementById('toggle-haptic')?.addEventListener('change', e => {
+      this.store.saveSetting('haptic', e.target.checked);
+    });
+    document.getElementById('toggle-system-theme')?.addEventListener('change', e => {
+      this.store.saveSetting('systemTheme', e.target.checked);
+      if(e.target.checked) {
+        const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        this._applyTheme(isDark ? 'dark' : 'light');
+      }
     });
 
-    /* Salin CSS */
-    document.getElementById('copy-css-btn').addEventListener('click', () => this._copyCss());
-    document.getElementById('copy-gradient-btn').addEventListener('click', () => this._copyCss());
-
-    /* Simpan ke riwayat (sebagai warna pertama dari gradient) */
-    document.getElementById('save-gradient-btn').addEventListener('click', () => {
-      this.onToast('CSS gradient disalin ke clipboard!');
-      this._copyCss();
+    /* Ekspor data */
+    document.getElementById('export-data-btn')?.addEventListener('click', () => {
+      const data = {
+        palette:  this.store.palette,
+        history:  this.store.history,
+        settings: this.store.settings,
+        exported: new Date().toISOString()
+      };
+      const blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
+      const url  = URL.createObjectURL(blob);
+      const a    = Object.assign(document.createElement('a'), {href:url, download:'colorpicker-data.json'});
+      document.body.appendChild(a); a.click(); a.remove();
+      URL.revokeObjectURL(url);
+      this.onToast('Data diekspor sebagai JSON');
     });
-  }
 
-  /* Hitung ulang persentase agar terdistribusi merata */
-  _recalcPercents() {
-    this.stops.forEach((s, i) => {
-      s.pct = Math.round(i / (this.stops.length - 1) * 100);
+    /* Reset data */
+    document.getElementById('reset-data-btn')?.addEventListener('click', () => {
+      if(confirm('Yakin ingin menghapus semua data? Tindakan ini tidak bisa dibatalkan.')) {
+        this.store.clearAll();
+        this.store.saveSetting('theme', 'dark');
+        this._applyTheme('dark');
+        this.onToast('Semua data direset');
+      }
     });
-  }
-
-  /* Bangun string CSS gradient dan terapkan ke preview */
-  buildCss() {
-    const stopsStr = this.stops.map(s => `${s.hex} ${s.pct}%`).join(', ');
-    let css;
-    switch(this.type) {
-      case 'radial': css = `radial-gradient(circle, ${stopsStr})`; break;
-      case 'conic':  css = `conic-gradient(from ${this.angle}deg, ${stopsStr})`; break;
-      default:       css = `linear-gradient(${this.angle}deg, ${stopsStr})`;
-    }
-    return css;
-  }
-
-  _updatePreview() {
-    const css = this.buildCss();
-    document.getElementById('gradient-preview').style.background = css;
-    const codeEl = document.getElementById('css-code');
-    codeEl.textContent = `background: ${css};`;
-    const badge = document.getElementById('gradient-type-badge');
-    badge.textContent = this.type === 'linear'
-      ? `Linear · ${this.angle}°`
-      : this.type === 'radial' ? 'Radial · Circle' : `Conic · ${this.angle}°`;
-  }
-
-  async _copyCss() {
-    const css = `background: ${this.buildCss()};`;
-    try { await navigator.clipboard.writeText(css); }
-    catch { const t=Object.assign(document.createElement('textarea'),{value:css}); document.body.appendChild(t); t.select(); document.execCommand('copy'); t.remove(); }
-    this.onToast('CSS gradient disalin!');
   }
 }
 
-/* ==============================================================
-   ColorApp — Controller Utama
-   Mengorkestrasi semua komponen dan mengelola aliran data.
-   ============================================================== */
+/* ---- ColorApp — Controller Utama ---- */
 class ColorApp {
   constructor() {
-    this.hue = 217; this.sat = 0.73; this.bri = 0.96;
-    this._editingField = null;
-    this._toastTid     = null;
-    this._historyTid   = null; /* Debounce: simpan riwayat 1.5s setelah berhenti drag */
+    this.hue=217; this.sat=0.73; this.bri=0.96;
+    this._editingField=null; this._toastTid=null; this._historyTid=null;
 
     this.store    = new Store();
-    this.router   = new Router(page => this._onNavigate(page));
+    this.router   = new Router(page=>this._onNavigate(page));
     this.drawer   = new DrawerController(
       document.getElementById('drawer'),
       document.getElementById('drawer-overlay'),
       document.getElementById('menu-btn')
     );
-    this.gradient = new GradientMaker(msg => this._toast(msg));
+    this.gradient = new GradientMaker(msg=>this._toast(msg));
+    this.settings = new SettingsManager(this.store, msg=>this._toast(msg));
 
     this.picker = new PickerCanvas(
       document.getElementById('picker-canvas'),
       document.getElementById('picker-thumb'),
-      (s,v) => { this.sat=s; this.bri=v; this._update(); this._scheduleHistory(); }
+      (s,v)=>{this.sat=s;this.bri=v;this._update();this._scheduleHistory();}
     );
     this.hueSlider = new HueSlider(
       document.getElementById('hue-track'),
       document.getElementById('hue-thumb'),
-      hue => { this.hue=hue; this.picker.setHue(hue); this._update(); this._scheduleHistory(); }
+      hue=>{this.hue=hue;this.picker.setHue(hue);this._update();this._scheduleHistory();}
     );
 
-    lucide.createIcons({ attrs: { 'stroke-width': 2 } });
+    lucide.createIcons({attrs:{'stroke-width':2}});
     this._bindEvents();
     this._update();
     this._renderPalette();
@@ -1495,140 +1707,87 @@ class ColorApp {
     this._updateBadges();
   }
 
-  /* ---- Callback dari Router: beri tahu halaman yang baru dibuka ---- */
   _onNavigate(page) {
     this.drawer.close();
-    if(page === 'palette') this._renderPalette();
-    if(page === 'history') this._renderHistory();
+    if(page==='palette') this._renderPalette();
+    if(page==='history') this._renderHistory();
   }
 
   _bindEvents() {
-    /* Bottom nav */
-    document.querySelectorAll('.nav-item').forEach(item => {
-      item.addEventListener('click', () => this.router.go(item.dataset.nav));
+    /* Bottom nav — TIDAK termasuk settings & about */
+    document.querySelectorAll('.nav-item').forEach(item=>{
+      item.addEventListener('click',()=>this.router.go(item.dataset.nav));
     });
 
-    /* Drawer items dengan route */
-    document.querySelectorAll('.drawer-item[data-route]').forEach(item => {
-      item.addEventListener('click', () => this.router.go(item.dataset.route));
+    /* Drawer items — settings & about pakai fromDrawer=true */
+    document.querySelectorAll('.drawer-item[data-route]').forEach(item=>{
+      item.addEventListener('click',()=>{
+        const route = item.dataset.route;
+        const fromDrawer = route==='settings'||route==='about';
+        this.router.go(route, fromDrawer);
+      });
     });
-    document.getElementById('drawer-settings').addEventListener('click', () => {
-      this.drawer.close(); this._toast('Setelan — Segera hadir!');
-    });
-    document.getElementById('drawer-about').addEventListener('click', () => {
-      this.drawer.close(); this._toast('Color Picker Pro v2.0 — SPA Edition');
+
+    /* VIP button */
+    document.getElementById('vip-btn').addEventListener('click',()=>{
+      this._toast('✨ Color Picker Pro — Semua fitur sudah aktif!');
     });
 
     /* Share */
-    document.getElementById('share-btn').addEventListener('click', () => this._share());
+    document.getElementById('share-btn').addEventListener('click',()=>this._share());
 
     /* Copy HEX */
-    document.getElementById('copy-btn').addEventListener('click', () => this._copyHex());
+    document.getElementById('copy-btn').addEventListener('click',()=>this._copyHex());
 
     /* Simpan ke palet */
-    document.getElementById('save-to-palette-btn').addEventListener('click', () => {
-      const hex = this._currentHex;
-      const ok  = this.store.addToPalette(hex);
-      if(ok) {
-        this._toast(`${hex} disimpan ke palet!`);
-        this._renderPalette();
-        this._updateBadges();
-      } else {
-        this._toast('Warna sudah ada di palet');
-      }
+    document.getElementById('save-to-palette-btn').addEventListener('click',()=>{
+      const ok=this.store.addToPalette(this._currentHex);
+      if(ok){this._toast(`${this._currentHex} disimpan ke palet!`);this._renderPalette();this._updateBadges();}
+      else{this._toast('Warna sudah ada di palet');}
     });
 
     /* Hapus palet */
-    document.getElementById('clear-palette-btn').addEventListener('click', () => {
-      if(!this.store.palette.length) return;
-      this.store.clearPalette();
-      this._renderPalette();
-      this._updateBadges();
-      this._toast('Palet dikosongkan');
+    document.getElementById('clear-palette-btn').addEventListener('click',()=>{
+      if(!this.store.palette.length)return;
+      this.store.clearPalette();this._renderPalette();this._updateBadges();this._toast('Palet dikosongkan');
     });
 
     /* Hapus riwayat */
-    document.getElementById('clear-history-btn').addEventListener('click', () => {
-      if(!this.store.history.length) return;
-      this.store.clearHistory();
-      this._renderHistory();
-      this._updateBadges();
-      this._toast('Riwayat dikosongkan');
+    document.getElementById('clear-history-btn').addEventListener('click',()=>{
+      if(!this.store.history.length)return;
+      this.store.clearHistory();this._renderHistory();this._updateBadges();this._toast('Riwayat dikosongkan');
     });
 
-    /* Input fields — bidirectional binding */
+    /* About page links */
+    document.getElementById('about-changelog')?.addEventListener('click',()=>this._toast('Catatan perubahan v2.1: Settings & About page, Swipe Drawer, VIP badge'));
+    document.getElementById('about-privacy')?.addEventListener('click',()=>this._toast('Privasi: Semua data tersimpan lokal di perangkat kamu'));
+    document.getElementById('about-rate')?.addEventListener('click',()=>this._toast('Terima kasih atas dukunganmu! ⭐⭐⭐⭐⭐'));
+    document.getElementById('about-share-app')?.addEventListener('click',()=>this._share());
+
     this._bindInputs();
   }
 
-  /* ---- Input fields: dua arah (ketik di field → update picker) ---- */
-  _bindInputs() {
-    const fields = [
-      { id:'hex-input',  field:'hex'  },
-      { id:'rgb-input',  field:'rgb'  },
-      { id:'cmyk-input', field:'cmyk' },
-      { id:'hsv-input',  field:'hsv'  },
-      { id:'hsl-input',  field:'hsl'  },
-    ];
-    fields.forEach(({ id, field }) => {
-      const el = document.getElementById(id);
-      el.addEventListener('focus', () => { this._editingField = field; });
-      el.addEventListener('input', () => {
-        this[`_on${field.charAt(0).toUpperCase()+field.slice(1)}Input`]?.();
-        if(el.tagName==='TEXTAREA') this._autoResize(el);
-      });
-      el.addEventListener('blur',  () => { this._editingField = null; this._update(); });
-      el.addEventListener('keydown', e => { if(e.key==='Enter'){e.preventDefault();el.blur();} });
-      el.style.webkitUserSelect = 'text';
-      el.style.userSelect       = 'text';
+  _bindInputs(){
+    [['hex-input','hex'],['rgb-input','rgb'],['cmyk-input','cmyk'],['hsv-input','hsv'],['hsl-input','hsl']].forEach(([id,field])=>{
+      const el=document.getElementById(id);
+      el.addEventListener('focus',()=>{this._editingField=field;});
+      el.addEventListener('input',()=>{this[`_on${field[0].toUpperCase()+field.slice(1)}Input`]?.();if(el.tagName==='TEXTAREA')this._autoResize(el);});
+      el.addEventListener('blur',()=>{this._editingField=null;this._update();});
+      el.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();el.blur();}});
+      el.style.webkitUserSelect='text';el.style.userSelect='text';
     });
   }
 
-  _onHexInput() {
-    const v=document.getElementById('hex-input').value.trim();
-    const rgb=ColorConverter.hexToRgb(v);
-    if(!rgb){document.getElementById('hex-input').classList.add('invalid');return;}
-    document.getElementById('hex-input').classList.remove('invalid');
-    const hsv=ColorConverter.rgbToHsv(rgb.r,rgb.g,rgb.b);
-    this._applyHsv(hsv.h,hsv.s,hsv.v);
-  }
-  _onRgbInput() {
-    const n=ColorConverter.parseNumbers(document.getElementById('rgb-input').value);
-    if(n.length<3){document.getElementById('rgb-input').classList.add('invalid');return;}
-    document.getElementById('rgb-input').classList.remove('invalid');
-    const [r,g,b]=n.map(x=>Math.max(0,Math.min(255,Math.round(x))));
-    const hsv=ColorConverter.rgbToHsv(r,g,b); this._applyHsv(hsv.h,hsv.s,hsv.v);
-  }
-  _onCmykInput() {
-    const n=ColorConverter.parseNumbers(document.getElementById('cmyk-input').value);
-    if(n.length<4){document.getElementById('cmyk-input').classList.add('invalid');return;}
-    document.getElementById('cmyk-input').classList.remove('invalid');
-    const [c,m,y,k]=n.map(x=>Math.max(0,Math.min(100,x)));
-    const rgb=ColorConverter.cmykToRgb(c,m,y,k);
-    const hsv=ColorConverter.rgbToHsv(rgb.r,rgb.g,rgb.b); this._applyHsv(hsv.h,hsv.s,hsv.v);
-  }
-  _onHsvInput() {
-    const n=ColorConverter.parseNumbers(document.getElementById('hsv-input').value);
-    if(n.length<3){document.getElementById('hsv-input').classList.add('invalid');return;}
-    document.getElementById('hsv-input').classList.remove('invalid');
-    this._applyHsv(Math.max(0,Math.min(360,n[0])),Math.max(0,Math.min(100,n[1]))/100,Math.max(0,Math.min(100,n[2]))/100);
-  }
-  _onHslInput() {
-    const n=ColorConverter.parseNumbers(document.getElementById('hsl-input').value);
-    if(n.length<3){document.getElementById('hsl-input').classList.add('invalid');return;}
-    document.getElementById('hsl-input').classList.remove('invalid');
-    const rgb=ColorConverter.hslToRgb(Math.max(0,Math.min(360,n[0])),Math.max(0,Math.min(100,n[1])),Math.max(0,Math.min(100,n[2])));
-    const hsv=ColorConverter.rgbToHsv(rgb.r,rgb.g,rgb.b); this._applyHsv(hsv.h,hsv.s,hsv.v);
-  }
+  _onHexInput(){const v=document.getElementById('hex-input').value.trim();const rgb=ColorConverter.hexToRgb(v);if(!rgb){document.getElementById('hex-input').classList.add('invalid');return;}document.getElementById('hex-input').classList.remove('invalid');const hsv=ColorConverter.rgbToHsv(rgb.r,rgb.g,rgb.b);this._applyHsv(hsv.h,hsv.s,hsv.v);}
+  _onRgbInput(){const n=ColorConverter.parseNumbers(document.getElementById('rgb-input').value);if(n.length<3){document.getElementById('rgb-input').classList.add('invalid');return;}document.getElementById('rgb-input').classList.remove('invalid');const[r,g,b]=n.map(x=>Math.max(0,Math.min(255,Math.round(x))));const hsv=ColorConverter.rgbToHsv(r,g,b);this._applyHsv(hsv.h,hsv.s,hsv.v);}
+  _onCmykInput(){const n=ColorConverter.parseNumbers(document.getElementById('cmyk-input').value);if(n.length<4){document.getElementById('cmyk-input').classList.add('invalid');return;}document.getElementById('cmyk-input').classList.remove('invalid');const[c,m,y,k]=n.map(x=>Math.max(0,Math.min(100,x)));const rgb=ColorConverter.cmykToRgb(c,m,y,k);const hsv=ColorConverter.rgbToHsv(rgb.r,rgb.g,rgb.b);this._applyHsv(hsv.h,hsv.s,hsv.v);}
+  _onHsvInput(){const n=ColorConverter.parseNumbers(document.getElementById('hsv-input').value);if(n.length<3){document.getElementById('hsv-input').classList.add('invalid');return;}document.getElementById('hsv-input').classList.remove('invalid');this._applyHsv(Math.max(0,Math.min(360,n[0])),Math.max(0,Math.min(100,n[1]))/100,Math.max(0,Math.min(100,n[2]))/100);}
+  _onHslInput(){const n=ColorConverter.parseNumbers(document.getElementById('hsl-input').value);if(n.length<3){document.getElementById('hsl-input').classList.add('invalid');return;}document.getElementById('hsl-input').classList.remove('invalid');const rgb=ColorConverter.hslToRgb(Math.max(0,Math.min(360,n[0])),Math.max(0,Math.min(100,n[1])),Math.max(0,Math.min(100,n[2])));const hsv=ColorConverter.rgbToHsv(rgb.r,rgb.g,rgb.b);this._applyHsv(hsv.h,hsv.s,hsv.v);}
 
-  _applyHsv(h,s,v) {
-    this.hue=h; this.sat=s; this.bri=v;
-    this.picker.setHue(h); this.picker.setSatBri(s,v); this.hueSlider.setHue(h);
-    this._update();
-  }
+  _applyHsv(h,s,v){this.hue=h;this.sat=s;this.bri=v;this.picker.setHue(h);this.picker.setSatBri(s,v);this.hueSlider.setHue(h);this._update();}
 
-  /* ---- Inti: hitung ulang semua format dan update DOM ---- */
-  _update() {
-    const {r,g,b}=ColorConverter.hsvToRgb(this.hue,this.sat,this.bri);
+  _update(){
+    const{r,g,b}=ColorConverter.hsvToRgb(this.hue,this.sat,this.bri);
     const hex=ColorConverter.rgbToHex(r,g,b);
     const cmyk=ColorConverter.rgbToCmyk(r,g,b);
     const hsl=ColorConverter.rgbToHsl(r,g,b);
@@ -1639,174 +1798,102 @@ class ColorApp {
     if(this._editingField!=='cmyk') document.getElementById('cmyk-input').value=`${cmyk.c}%, ${cmyk.m}%, ${cmyk.y}%, ${cmyk.k}%`;
     if(this._editingField!=='hsv')  document.getElementById('hsv-input').value=`${this.hue}°, ${Math.round(this.sat*100)}%, ${Math.round(this.bri*100)}%`;
     if(this._editingField!=='hsl')  document.getElementById('hsl-input').value=`${hsl.h}°, ${hsl.s}%, ${hsl.l}%`;
-    ['hex','rgb','cmyk','hsv','hsl'].forEach(f=>{
-      if(this._editingField!==f) {
-        const el=document.getElementById(f+'-input');
-        el.classList.remove('invalid');
-        if(el.tagName==='TEXTAREA') this._autoResize(el);
-      }
-    });
+    ['hex','rgb','cmyk','hsv','hsl'].forEach(f=>{if(this._editingField!==f){const el=document.getElementById(f+'-input');el.classList.remove('invalid');if(el.tagName==='TEXTAREA')this._autoResize(el);}});
   }
 
-  /* Debounce: simpan ke riwayat 1.5 detik setelah berhenti menggeser */
-  _scheduleHistory() {
+  _scheduleHistory(){
+    if(!this.store.settings.autoHistory) return;
     clearTimeout(this._historyTid);
-    this._historyTid = setTimeout(() => {
-      if(this._currentHex) {
+    this._historyTid=setTimeout(()=>{
+      if(this._currentHex){
         this.store.addToHistory(this._currentHex);
         this._updateBadges();
-        /* Jika halaman history sedang tampil, refresh langsung */
-        if(this.router.current==='history') this._renderHistory();
+        if(this.router.current==='history')this._renderHistory();
       }
-    }, 1500);
+    },1500);
   }
 
-  /* ---- Render halaman Palet ---- */
-  _renderPalette() {
-    const grid  = document.getElementById('palette-grid');
-    const empty = document.getElementById('palette-empty');
-    const label = document.getElementById('palette-count-label');
-    const data  = this.store.palette;
-
-    label.textContent = `${data.length} warna`;
-    grid.innerHTML    = '';
-
-    if(!data.length) {
-      grid.style.display  = 'none';
-      empty.style.display = '';
-      return;
-    }
-    grid.style.display  = '';
-    empty.style.display = 'none';
-
-    data.forEach((item, i) => {
-      const el = document.createElement('div');
-      el.className = 'palette-item';
-      el.style.animationDelay = `${i * 0.04}s`;
-      el.innerHTML = `
-        <div class="palette-color-swatch" style="background:${item.hex}"></div>
-        <div class="palette-item-footer">
-          <span class="palette-hex">${item.hex}</span>
-          <button class="palette-delete" data-id="${item.id}">
-            <i data-lucide="x" width="12" height="12"></i>
-          </button>
-        </div>
-      `;
-      /* Klik swatch → pindah ke picker dengan warna ini */
-      el.querySelector('.palette-color-swatch').addEventListener('click', () => {
-        const rgb = ColorConverter.hexToRgb(item.hex);
-        if(!rgb) return;
-        const hsv = ColorConverter.rgbToHsv(rgb.r,rgb.g,rgb.b);
-        this._applyHsv(hsv.h,hsv.s,hsv.v);
-        this.router.go('picker');
-        this._toast(`${item.hex} diterapkan ke picker`);
-      });
-      /* Hapus dari palet */
-      el.querySelector('.palette-delete').addEventListener('click', e => {
-        e.stopPropagation();
-        this.store.removeFromPalette(item.id);
-        this._renderPalette();
-        this._updateBadges();
-      });
+  _renderPalette(){
+    const grid=document.getElementById('palette-grid');
+    const empty=document.getElementById('palette-empty');
+    const label=document.getElementById('palette-count-label');
+    const data=this.store.palette;
+    label.textContent=`${data.length} warna`;
+    grid.innerHTML='';
+    if(!data.length){grid.style.display='none';empty.style.display='';return;}
+    grid.style.display='';empty.style.display='none';
+    data.forEach((item,i)=>{
+      const el=document.createElement('div');
+      el.className='palette-item';el.style.animationDelay=`${i*.04}s`;
+      el.innerHTML=`<div class="palette-color-swatch" style="background:${item.hex}"></div><div class="palette-item-footer"><span class="palette-hex">${item.hex}</span><button class="palette-delete" data-id="${item.id}"><i data-lucide="x" width="12" height="12"></i></button></div>`;
+      el.querySelector('.palette-color-swatch').addEventListener('click',()=>{const rgb=ColorConverter.hexToRgb(item.hex);if(!rgb)return;const hsv=ColorConverter.rgbToHsv(rgb.r,rgb.g,rgb.b);this._applyHsv(hsv.h,hsv.s,hsv.v);this.router.go('picker');this._toast(`${item.hex} diterapkan`);});
+      el.querySelector('.palette-delete').addEventListener('click',e=>{e.stopPropagation();this.store.removeFromPalette(item.id);this._renderPalette();this._updateBadges();});
       grid.appendChild(el);
     });
-    lucide.createIcons({ attrs: { 'stroke-width': 2 } });
+    lucide.createIcons({attrs:{'stroke-width':2}});
   }
 
-  /* ---- Render halaman Riwayat ---- */
-  _renderHistory() {
-    const list  = document.getElementById('history-list');
-    const empty = document.getElementById('history-empty');
-    const label = document.getElementById('history-count-label');
-    const data  = this.store.history;
-
-    label.textContent = `${data.length} entri`;
-    list.innerHTML    = '';
-
-    if(!data.length) {
-      list.style.display  = 'none';
-      empty.style.display = '';
-      return;
-    }
-    list.style.display  = '';
-    empty.style.display = 'none';
-
-    data.forEach((item, i) => {
-      const el = document.createElement('div');
-      el.className = 'history-item';
-      el.style.animationDelay = `${i * 0.03}s`;
-      el.innerHTML = `
-        <div class="history-swatch" style="background:${item.hex}"></div>
-        <div class="history-info">
-          <div class="history-hex">${item.hex}</div>
-          <div class="history-rgb">RGB: ${item.rgb}</div>
-        </div>
-        <span class="history-time">${item.time}</span>
-        <button class="history-action" data-hex="${item.hex}" title="Terapkan">
-          <i data-lucide="arrow-up-right" width="16" height="16"></i>
-        </button>
-      `;
-      /* Terapkan warna dari riwayat ke picker */
-      const apply = () => {
-        const rgb = ColorConverter.hexToRgb(item.hex);
-        if(!rgb) return;
-        const hsv = ColorConverter.rgbToHsv(rgb.r,rgb.g,rgb.b);
-        this._applyHsv(hsv.h,hsv.s,hsv.v);
-        this.router.go('picker');
-        this._toast(`${item.hex} diterapkan ke picker`);
-      };
-      el.querySelector('.history-swatch').addEventListener('click', apply);
-      el.querySelector('.history-action').addEventListener('click', apply);
+  _renderHistory(){
+    const list=document.getElementById('history-list');
+    const empty=document.getElementById('history-empty');
+    const label=document.getElementById('history-count-label');
+    const data=this.store.history;
+    label.textContent=`${data.length} entri`;
+    list.innerHTML='';
+    if(!data.length){list.style.display='none';empty.style.display='';return;}
+    list.style.display='';empty.style.display='none';
+    data.forEach((item,i)=>{
+      const el=document.createElement('div');
+      el.className='history-item';el.style.animationDelay=`${i*.03}s`;
+      el.innerHTML=`<div class="history-swatch" style="background:${item.hex}"></div><div class="history-info"><div class="history-hex">${item.hex}</div><div class="history-rgb">RGB: ${item.rgb}</div></div><span class="history-time">${item.time}</span><button class="history-action"><i data-lucide="arrow-up-right" width="16" height="16"></i></button>`;
+      const apply=()=>{const rgb=ColorConverter.hexToRgb(item.hex);if(!rgb)return;const hsv=ColorConverter.rgbToHsv(rgb.r,rgb.g,rgb.b);this._applyHsv(hsv.h,hsv.s,hsv.v);this.router.go('picker');this._toast(`${item.hex} diterapkan`);};
+      el.querySelector('.history-swatch').addEventListener('click',apply);
+      el.querySelector('.history-action').addEventListener('click',apply);
       list.appendChild(el);
     });
-    lucide.createIcons({ attrs: { 'stroke-width': 1.5 } });
+    lucide.createIcons({attrs:{'stroke-width':2}});
   }
 
-  /* ---- Update badge angka di bottom nav ---- */
-  _updateBadges() {
-    const pb = document.getElementById('palette-badge');
-    const hb = document.getElementById('history-badge');
-    const pc = this.store.palette.length;
-    const hc = this.store.history.length;
-    pb.textContent = pc>99?'99+':pc;
-    pb.style.display = pc>0?'flex':'none';
-    hb.textContent = hc>99?'99+':hc;
-    hb.style.display = hc>0?'flex':'none';
+  _updateBadges(){
+    const pb=document.getElementById('palette-badge');
+    const hb=document.getElementById('history-badge');
+    const pc=this.store.palette.length,hc=this.store.history.length;
+    pb.textContent=pc>99?'99+':pc; pb.style.display=pc>0?'flex':'none';
+    hb.textContent=hc>99?'99+':hc; hb.style.display=hc>0?'flex':'none';
   }
 
-  async _copyHex() {
-    try { await navigator.clipboard.writeText(this._currentHex); }
-    catch { const t=Object.assign(document.createElement('input'),{value:this._currentHex}); document.body.appendChild(t); t.select(); document.execCommand('copy'); t.remove(); }
+  async _copyHex(){
+    try{await navigator.clipboard.writeText(this._currentHex);}
+    catch{const t=Object.assign(document.createElement('input'),{value:this._currentHex});document.body.appendChild(t);t.select();document.execCommand('copy');t.remove();}
+    /* Haptic feedback jika diaktifkan */
+    if(this.store.settings.haptic && navigator.vibrate) navigator.vibrate(10);
     document.getElementById('copy-flash').classList.add('show');
     setTimeout(()=>document.getElementById('copy-flash').classList.remove('show'),1100);
     this._toast(`${this._currentHex} disalin!`);
   }
 
-  async _share() {
-    const {r,g,b}=ColorConverter.hsvToRgb(this.hue,this.sat,this.bri);
+  async _share(){
+    const{r,g,b}=ColorConverter.hsvToRgb(this.hue,this.sat,this.bri);
     const hsl=ColorConverter.rgbToHsl(r,g,b);
     const text=`Warna: ${this._currentHex}\nRGB: ${r}, ${g}, ${b}\nHSL: ${hsl.h}°, ${hsl.s}%, ${hsl.l}%`;
-    if(navigator.share){ try{await navigator.share({title:'Color Picker Pro',text});}catch{} }
-    else { try{await navigator.clipboard.writeText(text);this._toast('Info warna disalin!');}catch{this._toast('Share tidak didukung');} }
+    if(navigator.share){try{await navigator.share({title:'Color Picker Pro',text});}catch{}}
+    else{try{await navigator.clipboard.writeText(text);this._toast('Info warna disalin!');}catch{this._toast('Share tidak didukung');}}
   }
 
-  _toast(msg, dur=2300) {
+  _toast(msg,dur=2300){
     const el=document.getElementById('toast');
-    el.textContent=msg; el.classList.add('show');
+    el.textContent=msg;el.classList.add('show');
     clearTimeout(this._toastTid);
     this._toastTid=setTimeout(()=>el.classList.remove('show'),dur);
   }
 
-  _autoResize(el) { el.style.height='auto'; el.style.height=el.scrollHeight+'px'; }
+  _autoResize(el){el.style.height='auto';el.style.height=el.scrollHeight+'px';}
 }
 
-/* ==============================================================
-   BOOT
-   ============================================================== */
-document.addEventListener('DOMContentLoaded', () => {
+/* ---- BOOT ---- */
+document.addEventListener('DOMContentLoaded',()=>{
   window.colorApp = new ColorApp();
 });
 </script>
 </body>
 </html>
-
